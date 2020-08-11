@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MQTT Demo</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/chart.min.js' %}"></script>
+</head>
+<body class="nav-md footer_fixed" style="background-color: #F7F7F7">
+    <div>MQTT demo</div>
+    <div class="container">
+        <div class="row" id="x">
+            <div>X Values</div>
+            <div class="col" id="x-compare"></div>
+        </div>
+        <div class="row" id="y">
+            <div>Y Values</div>
+            <div class="col" id="y-compare"></div>
+        </div>
+        <div class="row" id="z">
+            <div>Z Values</div>
+            <div class="col" id="z-compare"></div>
+        </div>
+        <div class="row">
+            <div class="col">sub graph</div>
+            <div class="col">sub graph</div>
+            <div class="col">sub graph</div>
+            <div class="col">sub graph</div>
+        </div>
+    </div>
+    <div id="reloader"></div>
+    <script>
+        var compareCharts = []
+        $.get("{% static 'html/compareChart.html' %}", function(data){
+            $("#x-compare").replaceWith(data).stop();
+            $("#y-compare").replaceWith(data).stop();
+            $("#z-compare").replaceWith(data).stop();
+        })
+        $.get("{% static 'html/reloader.html' %}", function(data){
+            $("#reloader").replaceWith(data).stop();
+        })
+
+        var iterator = [0, 0, 0]
+        setInterval(function(){
+            for(var index = 0; index<compareCharts.length; index++){
+                var valueA = parseInt(document.getElementById("currentA").innerHTML.split(",")[index]);
+                var valueB = parseInt(document.getElementById("currentB").innerHTML.split(",")[index]);
+                var valueC = parseInt(document.getElementById("currentC").innerHTML.split(",")[index]);
+                var valueD = parseInt(document.getElementById("currentD").innerHTML.split(",")[index]);
+
+                compareCharts[index].addData([valueA, valueB, valueC, valueD], ++iterator[index]);
+                compareCharts[index].removeData();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

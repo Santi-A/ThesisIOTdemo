@@ -1,0 +1,54 @@
+<canvas id="chart" style="height:100%; width:100%;max-height: 150px"></canvas>
+
+<script>
+    var parentID = $("#chart").parent().attr('id');
+    var chartID = parentID + "-chart";
+    var valID =  parentID + "-value";
+    $("#chart").attr('id', chartID)
+
+        var canvas = document.getElementById(chartID),
+            ctx = canvas.getContext('2d'),
+            startingData = {
+              labels: [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+              datasets: [
+                  {
+                      fillColor: "rgba(0,0,255,.2)",
+                      strokeColor: "rgba(0,0,255,1)",
+                      pointColor: "rgba(0,0,255,1)",
+                      pointStrokeColor: "#fff",
+                      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                  },
+                  {
+                      fillColor: "rgba(0,255,0,.2)",
+                      strokeColor: "rgba(0,255,0,1)",
+                      pointColor: "rgba(0,255,0,1)",
+                      pointStrokeColor: "#fff",
+                      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                  },
+                   {
+                      fillColor: "rgba(255,0,0,.2)",
+                      strokeColor: "rgba(255,0,0,1)",
+                      pointColor: "rgba(255,0,0,1)",
+                      pointStrokeColor: "#fff",
+                      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                  },
+                   {
+                      fillColor: "rgba(255,165,0,.2)",
+                      strokeColor: "rgba(255,165,0,1)",
+                      pointColor: "rgba(255,165,0,1)",
+                      pointStrokeColor: "#fff",
+                      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                  }
+              ]
+            },
+            latestLabel = startingData.labels[20];
+
+          var updatingChart = new Chart(ctx).Line(startingData, {
+                animationSteps: 15,
+                scaleOverride : true,
+                scaleSteps : 10,
+                scaleStepWidth : 10,
+                scaleStartValue : -50 });
+
+          compareCharts.push(updatingChart)
+</script>
