@@ -1,24 +1,24 @@
-<div id="currentA" style="visibility: hidden"></div>
-<div id="currentB" style="visibility: hidden"></div>
-<div id="currentC" style="visibility: hidden"></div>
-<div id="currentD" style="visibility: hidden"></div>
+<div id="sensorA" style="visibility: hidden"></div>
+<div id="sensorB" style="visibility: hidden"></div>
+<div id="sensorC" style="visibility: hidden"></div>
+<div id="sensorD" style="visibility: hidden"></div>
 
 <script>
 
 </script>
 
 <script>
-        setInterval(function(){reloader();},1000);
+        setInterval(function(){reloader();},500);
 
         function reloader(){
             $.ajax({url: '/getCurrentValue',
                 success: function(result){
                     var res = JSON.parse(result);
 
-                    document.getElementById("currentA").innerHTML = res['currentA'];
-                    document.getElementById("currentB").innerHTML = res['currentB'];
-                    document.getElementById("currentC").innerHTML = res['currentC'];
-                    document.getElementById("currentD").innerHTML = res['currentD'];
+                    document.getElementById("sensorA").innerHTML = res['sensorA'];
+                    document.getElementById("sensorB").innerHTML = res['sensorB'];
+                    document.getElementById("sensorC").innerHTML = res['sensorC'];
+                    document.getElementById("sensorD").innerHTML = res['sensorD'];
                 }
             });
         }

@@ -1,9 +1,8 @@
-<canvas id="chart" style="height:100%; width:100%;max-height: 150px"></canvas>
+<canvas id="chart" style="height:100%; width:100%; max-height: 300px;"></canvas>
 
 <script>
     var parentID = $("#chart").parent().attr('id');
     var chartID = parentID + "-chart";
-    var valID =  parentID + "-value";
     $("#chart").attr('id', chartID)
 
         var canvas = document.getElementById(chartID),

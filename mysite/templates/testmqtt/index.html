@@ -12,17 +12,23 @@
 <body class="nav-md footer_fixed" style="background-color: #F7F7F7">
     <div>MQTT demo</div>
     <div class="container">
-        <div class="row" id="x">
+        <div class="row">
             <div>X Values</div>
-            <div class="col" id="x-compare"></div>
+            <div class="col" id="x"></div>
+            <div>X Gyro</div>
+            <div class="col" id="x-gyro"></div>
         </div>
-        <div class="row" id="y">
+        <div class="row">
             <div>Y Values</div>
-            <div class="col" id="y-compare"></div>
+            <div class="col" id="y"></div>
+            <div>Y Gyro</div>
+            <div class="col" id="y-gyro"></div>
         </div>
-        <div class="row" id="z">
+        <div class="row">
             <div>Z Values</div>
-            <div class="col" id="z-compare"></div>
+            <div class="col" id="z"></div>
+            <div>Z Gyro</div>
+            <div class="col" id="z-gyro"></div>
         </div>
         <div class="row">
             <div class="col">sub graph</div>
@@ -34,27 +40,31 @@
     <div id="reloader"></div>
     <script>
         var compareCharts = []
+        var dataStrings = []
         $.get("{% static 'html/compareChart.html' %}", function(data){
-            $("#x-compare").replaceWith(data).stop();
-            $("#y-compare").replaceWith(data).stop();
-            $("#z-compare").replaceWith(data).stop();
+            $("#x").append(data).stop();
+            $("#y").append(data).stop();
+            $("#z").append(data).stop();
+            $("#x-gyro").append(data).stop();
+            $("#y-gyro").append(data).stop();
+            $("#z-gyro").append(data).stop();
         })
         $.get("{% static 'html/reloader.html' %}", function(data){
             $("#reloader").replaceWith(data).stop();
         })
 
-        var iterator = [0, 0, 0]
+        var iterator = [0, 0, 0, 0, 0, 0]
         setInterval(function(){
             for(var index = 0; index<compareCharts.length; index++){
-                var valueA = parseInt(document.getElementById("currentA").innerHTML.split(",")[index]);
-                var valueB = parseInt(document.getElementById("currentB").innerHTML.split(",")[index]);
-                var valueC = parseInt(document.getElementById("currentC").innerHTML.split(",")[index]);
-                var valueD = parseInt(document.getElementById("currentD").innerHTML.split(",")[index]);
+                var valueA = parseInt(document.getElementById("sensorA").innerHTML.split(",")[index]);
+                var valueB = parseInt(document.getElementById("sensorB").innerHTML.split(",")[index]);
+                var valueC = parseInt(document.getElementById("sensorC").innerHTML.split(",")[index]);
+                var valueD = parseInt(document.getElementById("sensorD").innerHTML.split(",")[index]);
 
                 compareCharts[index].addData([valueA, valueB, valueC, valueD], ++iterator[index]);
                 compareCharts[index].removeData();
             }
-        }, 1000);
+        }, 500);
     </script>
 </body>
 </html>

@@ -4,23 +4,23 @@ import paho.mqtt.client as mqtt
 import json
 import datetime
 
-currentA = '0-0-0'
-currentB = '0-0-0'
-currentC = '0-0-0'
-currentD = '0-0-0'
+sensorA = '0,0,0,0,0,0'
+sensorB = '0,0,0,0,0,0'
+sensorC = '0,0,0,0,0,0'
+sensorD = '0,0,0,0,0,0'
 
 
 def getCurrentValue(request):
-    global currentA
-    global currentB
-    global currentC
-    global currentD
+    global sensorA
+    global sensorB
+    global sensorC
+    global sensorD
 
     JSONer = {}
-    JSONer['currentA'] = currentA
-    JSONer['currentB'] = currentB
-    JSONer['currentC'] = currentC
-    JSONer['currentD'] = currentD
+    JSONer['sensorA'] = sensorA
+    JSONer['sensorB'] = sensorB
+    JSONer['sensorC'] = sensorC
+    JSONer['sensorD'] = sensorD
 
     return HttpResponse(json.dumps(JSONer))
 
@@ -30,24 +30,29 @@ def index(request):
 
 
 def on_message(client, userdata, msg):
-    global currentA
-    global currentB
-    global currentC
-    global currentD
+    global sensorA
+    global sensorB
+    global sensorC
+    global sensorD
 
-    arrived = msg.payload.decode()
+    arrived = json.loads(msg.payload)
 
-    sensor = arrived.split(":")[0]
+    datastring = ""
+    for number in arrived['IMU']:
+        datastring += str(number) + ","
+    for number in arrived['Gyro']:
+        datastring += str(number) + ","
+
+    sensor = arrived['device']
     if sensor == "A":
-        currentA = arrived.split(":")[1]
+        sensorA = datastring
     if sensor == "B":
-        currentB = arrived.split(":")[1]
+        sensorB = datastring
     if sensor == "C":
-        currentC = arrived.split(":")[1]
+        sensorC = datastring
     if sensor == "D":
-        currentD = arrived.split(":")[1]
+        sensorD = datastring
 
-    print('new data: ', arrived)
     pass
 
 
