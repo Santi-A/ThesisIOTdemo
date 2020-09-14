@@ -1,0 +1,91 @@
+<div class="sensor-container" id="sensor-container-id">
+    <div class="sensor-tag" id="sensor-tag-id"></div>
+    <div class="sensor-chart-container">
+        <div class="xyz-chart">
+            <div>XYZ</div>
+            <canvas id="xyz-chart-id" style="height:100%; width:100%; max-height:100px;"></canvas>
+        </div>
+        <div class="gyro-chart">
+            <div>GYRO</div>
+            <canvas id="gyro-chart-id" style="height:100%; width:100%; max-height:100px;"></canvas>
+        </div>
+        <div class="temp-chart">
+            <div>TEMP</div>
+            <canvas id="temp-chart-id" style="height:100%; width:100%; max-height:100px;"></canvas>
+        </div>
+    </div>
+    <div id="sensor-input" style="visibility: hidden"></div>
+</div>
+
+<script>
+    var XYZ = 'xyz-chart-' + sensorID;
+    var GYRO = 'gyro-chart-' + sensorID;
+    var TEMP = 'temp-chart-' + sensorID;
+    $("#sensor-container-id").attr('id', 'sensor-container-' + sensorID);
+    $("#sensor-tag-id").append('Sensor ' + arrayID + " " + sensorID);
+    $("#sensor-tag-id").attr('id', 'sensor-tag-' + sensorID);
+    $("#xyz-chart-id").attr('id', XYZ);
+    $("#gyro-chart-id").attr('id', GYRO);
+    $("#temp-chart-id").attr('id', TEMP);
+    $("#sensor-input").append('{"device": "' + arrayID + '-' + sensorID + '", "IMU": [0,0,0], "Gyro": [0,0,0]}');
+    $("#sensor-input").attr('id', 'input-' + arrayID + '-' + sensorID);
+
+    var XYZcanvas = document.getElementById(XYZ);
+    var GYROcanvas = document.getElementById(GYRO);
+    var startData = {
+        labels: [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        datasets: [
+            {
+                fillColor: "rgba(0,0,255,.2)",
+                strokeColor: "rgba(0,0,255,1)",
+                pointColor: "rgba(0,0,255,1)",
+                pointStrokeColor: "#fff",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            {
+                fillColor: "rgba(0,255,0,.2)",
+                strokeColor: "rgba(0,255,0,1)",
+                pointColor: "rgba(0,255,0,1)",
+                pointStrokeColor: "#fff",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            {
+                fillColor: "rgba(255,0,0,.2)",
+                strokeColor: "rgba(255,0,0,1)",
+                pointColor: "rgba(255,0,0,1)",
+                pointStrokeColor: "#fff",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }
+        ]
+    }
+
+    var ctx = XYZcanvas.getContext('2d'),
+        startingData = startData,
+        latestLabel = startingData.labels[20];
+
+    var updatingChart = new Chart(ctx).Line(startingData, {
+         animationSteps: 15,
+         scaleOverride : true,
+         scaleSteps : 10,
+         scaleStepWidth : 10,
+         scaleStartValue : -50,
+         });
+
+    compareCharts.push({id: arrayID + "-" + XYZ, chart: updatingChart})
+
+
+    var ctx = GYROcanvas.getContext('2d'),
+        startingData = startData,
+        latestLabel = startingData.labels[20];
+
+    var updatingChart = new Chart(ctx).Line(startingData, {
+        animationSteps: 15,
+        scaleOverride : true,
+        scaleSteps : 10,
+        scaleStepWidth : 10,
+        scaleStartValue : -50,
+        });
+
+    compareCharts.push({id: arrayID + "-" + GYRO, chart: updatingChart})
+
+</script>

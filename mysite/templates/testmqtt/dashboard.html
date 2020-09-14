@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Demo</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashContent.css' %}">
+    <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/chart.min.js' %}"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-label">Sensor Arrays</div>
+        <a href="" class="array-select" id="Test">Test</a>
+        <a href="" class="array-select" id="Random">Random</a>
+        <a href="">New Array...</a>
+    </div>
+    <div class="content-container">
+        <div class="content"></div>
+    </div>
+    <script>
+        var sensorID = 0;
+        var sensorCount = 4;
+        var arrayID = '';
+        var compareCharts = [];
+        function loadContent(){
+            compareCharts = [];
+            $(".content").empty();
+            $.get("{% static 'html/sensorContainer.html' %}", function(data){
+                for(sensorID = 1; sensorID<=sensorCount; sensorID++){
+                    $(".content").append(data).stop();
+                }
+            })
+        }
+
+        $(".array-select").on('click', function(e){
+            arrayID = e.currentTarget.id;
+            e.preventDefault();
+            loadContent();
+        })
+
+        setInterval(function(){
+            $.ajax({url: '/getCurrentValue',
+                success: function(result){
+                    var res = JSON.parse(result);
+                    for(var messageindex = 0; messageindex<res.length; messageindex++){
+                        var inputdiv = 'input-' + res[messageindex].device
+                        if(document.getElementById(inputdiv)){
+                            document.getElementById(inputdiv).innerHTML = JSON.stringify(res[messageindex])
+                        }
+                    }
+                }
+            });
+        }, 500);
+
+        setInterval(function(){
+            for(var chartindex = 0; chartindex<compareCharts.length; chartindex++){
+                var chartID = compareCharts[chartindex].id
+                var tokenizedChartID = chartID.split('-')
+                var inputStringID = 'input-' + tokenizedChartID[0] + '-' + tokenizedChartID[3]
+                var graphID = tokenizedChartID[1]
+
+                var dataString = document.getElementById(inputStringID).innerHTML
+                var dataJSON = JSON.parse(dataString)
+                var chartData
+                if(graphID === "xyz") chartData = dataJSON.IMU
+                if(graphID === "gyro") chartData = dataJSON.Gyro
+                if(chartData){
+                    compareCharts[chartindex].chart.addData(chartData, 0);
+                    compareCharts[chartindex].chart.removeData();
+                }
+            }
+        }, 500);
+    </script>
+</body>
+</html>

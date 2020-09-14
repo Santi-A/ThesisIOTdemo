@@ -1,0 +1,35 @@
+.sensor-container{
+    background-color: #646464;
+    color: #FFF;
+    height: 150px;
+    margin-top: 10px;
+}
+
+.sensor-label{
+    height: 15px;
+}
+
+.sensor-chart-container{
+    height: 135px;
+}
+
+.xyz-chart{
+    width: 40%;
+    max-height: 135px;
+    display: block;
+    float: left;
+}
+
+.gyro-chart{
+    width: 40%;
+    max-height: 135px;
+    display: block;
+    float: left;
+}
+
+.temp-chart{
+    width: 20%;
+    max-height: 135px;
+    display: block;
+    float: left;
+}

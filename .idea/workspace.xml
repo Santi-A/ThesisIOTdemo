@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fd40995-02f7-4069-b62e-b9742fe5f115" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mysite/static/css/dashContent.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/static/css/dashboard.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/static/html/dashContent.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/static/html/sensorContainer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/templates/testmqtt/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/static/html/compareChart.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/static/html/compareChart.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/static/html/reloader.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/static/html/reloader.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/templates/testmqtt/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/templates/testmqtt/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/testmqtt/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/testmqtt/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/testmqtt/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/testmqtt/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,14 +35,14 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Santi\Desktop\thesis\aaaaaaaaaaaaa\mysite\static\html" />
-      <recent name="C:\Users\Santi\Desktop\thesis\aaaaaaaaaaaaa\mysite\static\css" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Santi\Desktop\thesis\aaaaaaaaaaaaa\mysite\static\js" />
       <recent name="C:\Users\Santi\Desktop\thesis\aaaaaaaaaaaaa\mysite\static\css" />
       <recent name="C:\Users\Santi\Desktop\thesis\aaaaaaaaaaaaa\mysite\external" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Santi\Desktop\thesis\aaaaaaaaaaaaa\mysite\static\html" />
+      <recent name="C:\Users\Santi\Desktop\thesis\aaaaaaaaaaaaa\mysite\static\css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -126,7 +129,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
