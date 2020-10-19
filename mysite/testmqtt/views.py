@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import paho.mqtt.client as mqtt
+from .models import ReceivedStrings
 import json
 import datetime
 
@@ -62,7 +63,8 @@ def on_message(client, userdata, msg):
     #     sensorC = datastring
     # if sensor == "D":
     #     sensorD = datastring
-
+    p = ReceivedStrings(string=arrived)
+    p.save()
     messageArray.append(arrived)
     pass
 
