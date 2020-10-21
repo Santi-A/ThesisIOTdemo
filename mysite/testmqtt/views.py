@@ -5,27 +5,11 @@ from .models import ReceivedStrings
 import json
 import datetime
 
-# sensorA = '0,0,0,0,0,0'
-# sensorB = '0,0,0,0,0,0'
-# sensorC = '0,0,0,0,0,0'
-# sensorD = '0,0,0,0,0,0'
 messageArray = []
 
 
 def getCurrentValue(request):
-    # global sensorA
-    # global sensorB
-    # global sensorC
-    # global sensorD
     global messageArray
-    #
-    #JSONer = {}
-    # JSONer['sensorA'] = sensorA
-    # JSONer['sensorB'] = sensorB
-    # JSONer['sensorC'] = sensorC
-    # JSONer['sensorD'] = sensorD
-
-    #return HttpResponse(json.dumps(JSONer))
     JSONsend = json.dumps(messageArray)
     messageArray = []
     return HttpResponse(JSONsend)
@@ -40,30 +24,10 @@ def dashboard(request):
 
 
 def on_message(client, userdata, msg):
-    # global sensorA
-    # global sensorB
-    # global sensorC
-    # global sensorD
     global messageArray
-    #
     arrived = json.loads(msg.payload)
-    #
-    # datastring = ""
-    # for number in arrived['IMU']:
-    #     datastring += str(number) + ","
-    # for number in arrived['Gyro']:
-    #     datastring += str(number) + ","
-    #
-    # sensor = arrived['device']
-    # if sensor == "A":
-    #     sensorA = datastring
-    # if sensor == "B":
-    #     sensorB = datastring
-    # if sensor == "C":
-    #     sensorC = datastring
-    # if sensor == "D":
-    #     sensorD = datastring
-    p = ReceivedStrings(string=arrived)
+
+    p = ReceivedStrings(sensorName=arrived['device'], imuX=arrived['IMU'][0], imuY=arrived['IMU'][1], imuZ=arrived['IMU'][2], gyroX=arrived['Gyro'][0], gyroY=arrived['Gyro'][1], gyroZ=arrived['Gyro'][2])
     p.save()
     messageArray.append(arrived)
     pass
