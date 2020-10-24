@@ -33,28 +33,31 @@
     var XYZcanvas = document.getElementById(XYZ);
     var GYROcanvas = document.getElementById(GYRO);
     var startData = {
-        labels: [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        labels: [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
         datasets: [
             {
-                fillColor: "rgba(0,0,255,.2)",
-                strokeColor: "rgba(0,0,255,1)",
-                pointColor: "rgba(0,0,255,1)",
-                pointStrokeColor: "#fff",
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                borderColor: "rgba(0,0,255,1)",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                pointRadius: 0,
+                pointBorderWidth: 0,
+                lineTension: 0,
+                borderWidth: 1,
             },
             {
-                fillColor: "rgba(0,255,0,.2)",
-                strokeColor: "rgba(0,255,0,1)",
-                pointColor: "rgba(0,255,0,1)",
-                pointStrokeColor: "#fff",
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                borderColor: "rgba(0,255,0,1)",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                pointRadius: 0,
+                pointBorderWidth: 0,
+                lineTension: 0,
+                borderWidth: 1,
             },
             {
-                fillColor: "rgba(255,0,0,.2)",
-                strokeColor: "rgba(255,0,0,1)",
-                pointColor: "rgba(255,0,0,1)",
-                pointStrokeColor: "#fff",
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                borderColor: "rgba(255,0,0,1)",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                pointRadius: 0,
+                pointBorderWidth: 0,
+                lineTension: 0,
+                borderWidth: 1,
             }
         ]
     }
@@ -63,13 +66,21 @@
         startingData = startData,
         latestLabel = startingData.labels[20];
 
-    var updatingChart = new Chart(ctx).Line(startingData, {
-         animationSteps: 15,
-         scaleOverride : true,
-         scaleSteps : 10,
-         scaleStepWidth : 10,
-         scaleStartValue : -50,
-         });
+    var updatingChart = new Chart(ctx, {
+        type: 'line',
+        data: startData,
+        options: {
+            legend: {display: false},
+            scales:{
+                yAxes: [{
+                    ticks: {
+                        max: 80,
+                        min: -80,
+                    }
+                }]
+            }
+        }
+    });
 
     compareCharts.push({id: arrayID + "-" + XYZ, chart: updatingChart})
 
@@ -78,13 +89,21 @@
         startingData = startData,
         latestLabel = startingData.labels[20];
 
-    var updatingChart = new Chart(ctx).Line(startingData, {
-        animationSteps: 15,
-        scaleOverride : true,
-        scaleSteps : 10,
-        scaleStepWidth : 10,
-        scaleStartValue : -50,
-        });
+    var updatingChart = new Chart(ctx, {
+        type: 'line',
+        data: startData,
+        options: {
+            legend: {display: false},
+            scales:{
+                yAxes: [{
+                    ticks: {
+                        max: 80,
+                        min: -80,
+                    }
+                }]
+            }
+        }
+    });
 
     compareCharts.push({id: arrayID + "-" + GYRO, chart: updatingChart})
 

@@ -53,7 +53,7 @@
                     }
                 }
             });
-        }, 500);
+        }, 1000);
 
         setInterval(function(){
             for(var chartindex = 0; chartindex<compareCharts.length; chartindex++){
@@ -68,11 +68,20 @@
                 if(graphID === "xyz") chartData = dataJSON.IMU
                 if(graphID === "gyro") chartData = dataJSON.Gyro
                 if(chartData){
-                    compareCharts[chartindex].chart.addData(chartData, 0);
-                    compareCharts[chartindex].chart.removeData();
+                    compareCharts[chartindex].chart.data.labels.push(" ");
+                    compareCharts[chartindex].chart.data.datasets[0].data.push(chartData[0]);
+                    compareCharts[chartindex].chart.data.datasets[1].data.push(chartData[1]);
+                    compareCharts[chartindex].chart.data.datasets[2].data.push(chartData[2]);
+
+                    compareCharts[chartindex].chart.data.labels.splice(0, 1);
+                    compareCharts[chartindex].chart.data.datasets[0].data.splice(0,1);
+                    compareCharts[chartindex].chart.data.datasets[1].data.splice(0,1);
+                    compareCharts[chartindex].chart.data.datasets[2].data.splice(0,1);
+
+                    compareCharts[chartindex].chart.update();
                 }
             }
-        }, 500);
+        }, 1000);
     </script>
 </body>
 </html>

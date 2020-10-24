@@ -9,3 +9,8 @@ class ReceivedStrings(models.Model):
     gyroX = models.CharField('GYRO-X', default='', max_length=255)
     gyroY = models.CharField('GYRO-Y', default='', max_length=255)
     gyroZ = models.CharField('GYRO-Z', default='', max_length=255)
+
+
+class Sensor(models.Model):
+    arrayName = models.CharField('Name', default='', max_length=255)
+    sensorCount = models.CharField('Number of Sensor nodes', default='0', max_length=2)
