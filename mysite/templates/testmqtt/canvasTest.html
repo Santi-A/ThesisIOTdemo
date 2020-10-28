@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing 2D visualization</title>
+    {% load static %}
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+    <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
+</head>
+<body>
+    <canvas></canvas>
+    <script>
+        var canvas = document.querySelector('canvas');
+        canvas.width = 500
+        canvas.height = 500
+        var c = canvas.getContext('2d');
+
+        <!-- c.fillRect(x, y, width, height) -->
+
+        {% for node in nodes %}
+            console.log('{{node.nodeName}}')
+        {% endfor %}
+        {% for node in nodes %}
+            if('{{node.nodeName}}' === 'Test 1'){
+                {% for sensor in node.sensor_set.all %}
+                    console.log('{{sensor.sensorName}}')
+                {% endfor %}
+            }
+        {% endfor %}
+    </script>
+</body>
+</html>

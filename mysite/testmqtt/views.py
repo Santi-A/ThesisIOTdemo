@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import paho.mqtt.client as mqtt
-from .models import ReceivedStrings
+from .models import ReceivedString, Sensor, Node
 import json
 import datetime
 
@@ -23,11 +23,18 @@ def dashboard(request):
     return render(request, 'testmqtt/dashboard.html')
 
 
+def canvas(request):
+    context = {
+        'nodes': Node.objects.all()
+    }
+    return render(request, 'testmqtt/canvasTest.html', context)
+
+
 def on_message(client, userdata, msg):
     global messageArray
     arrived = json.loads(msg.payload)
 
-    p = ReceivedStrings(sensorName=arrived['device'], imuX=arrived['IMU'][0], imuY=arrived['IMU'][1], imuZ=arrived['IMU'][2], gyroX=arrived['Gyro'][0], gyroY=arrived['Gyro'][1], gyroZ=arrived['Gyro'][2])
+    p = ReceivedString(sensorName=arrived['device'], imuX=arrived['IMU'][0], imuY=arrived['IMU'][1], imuZ=arrived['IMU'][2], gyroX=arrived['Gyro'][0], gyroY=arrived['Gyro'][1], gyroZ=arrived['Gyro'][2])
     p.save()
     messageArray.append(arrived)
     pass
