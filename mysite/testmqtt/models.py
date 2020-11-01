@@ -26,6 +26,7 @@ class Sensor(models.Model):
     xCoordinate = models.CharField('X Coordinate', default='', max_length=255)
     yCoordinate = models.CharField('Y Coordinate', default='', max_length=255)
     zCoordinate = models.CharField('Z Coordinate', default='', max_length=255)
+    vibrationLevel = models.CharField('Vibration', default='', max_length=255)
     parent = models.ForeignKey('Node', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):

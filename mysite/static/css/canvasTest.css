@@ -1,0 +1,29 @@
+html{
+    height: 100%;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+canvas {
+    border: 1px solid black;
+    background-color: #EBECF0;
+}
+
+.page-container{
+    display: flex;
+    min-height: 100%;
+}
+
+.left-container{
+    width: 502px;
+    background-color: #646464;
+}
+
+.right-container{
+    width: 100%;
+    background-color: #444444;
+}

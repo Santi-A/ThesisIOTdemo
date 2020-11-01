@@ -4,33 +4,112 @@
     <meta charset="UTF-8">
     <title>Testing 2D visualization</title>
     {% load static %}
-    <style type="text/css">
-        canvas {
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
     <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
 </head>
 <body>
-    <canvas></canvas>
+    <div class="page-container">
+        <div class="left-container">
+            <canvas></canvas>
+            <div>help text</div>
+        </div>
+        <div class="right-container">
+            <div class="test">sensor text</div>
+        </div>
+    </div>
     <script>
         var canvas = document.querySelector('canvas');
-        canvas.width = 500
-        canvas.height = 500
+        var canWidth = 500;
+        var canHeight = 500;
+        canvas.width = canWidth;
+        canvas.height = canHeight;
         var c = canvas.getContext('2d');
 
         <!-- c.fillRect(x, y, width, height) -->
 
+        var nodeArray = [];
         {% for node in nodes %}
-            console.log('{{node.nodeName}}')
-        {% endfor %}
-        {% for node in nodes %}
-            if('{{node.nodeName}}' === 'Test 1'){
+            if('{{node.nodeName}}' === 'Random'){
                 {% for sensor in node.sensor_set.all %}
-                    console.log('{{sensor.sensorName}}')
+                    var node = new Node({{sensor.xCoordinate}}, {{sensor.yCoordinate}}, {{sensor.vibrationLevel}});
+                    nodeArray.push(node);
+                    $(".right-container").append("<div>{{sensor.sensorName}}</div>");
                 {% endfor %}
             }
         {% endfor %}
+
+        function animate(){
+            requestAnimationFrame(animate);
+            c.clearRect(0, 0, canWidth, canHeight);
+            for(var i = 0; i < nodeArray.length; i++){
+                nodeArray[i].update();
+            }
+        }
+
+        function Node(xCoordinate, yCoordinate, vibration){
+            this.x = xCoordinate;
+            this.y = yCoordinate;
+            this.innerRadius = 5;
+            this.outerRadius = 100;
+            this.movingRadius = this.innerRadius;
+            this.speed = vibration;
+            this.colorString = "#000000";
+
+            this.setColor = function(){
+                switch(this.speed){
+                    case 1:
+                        this.colorString = "#149414";
+                        break;
+                    case 2:
+                        this.colorString = "#D9B51C";
+                        break;
+                    case 3:
+                        this.colorString = "#FF781F";
+                        break;
+                    case 4:
+                        this.colorString = "#D0312D";
+                        break;
+                    default:
+                        this.colorString = "#000000";
+                        break;
+                }
+                c.fillStyle = this.colorString;
+                c.strokeStyle = this.colorString;
+            }
+
+            this.drawInner = function(){
+                c.beginPath();
+                c.arc(this.x, this.y, this.innerRadius, 0, Math.PI*2, false);
+                c.fill();
+            }
+
+            this.drawOuter = function(){
+                c.beginPath();
+                c.arc(this.x, this.y, this.outerRadius, 0, Math.PI*2, false);
+                c.stroke();
+            }
+
+            this.drawPulse = function(){
+                if(this.movingRadius + this.speed <= this.outerRadius){
+                    this.movingRadius += this.speed;
+                }
+                else{
+                    this.movingRadius = this.innerRadius;
+                }
+                c.beginPath();
+                c.arc(this.x, this.y, this.movingRadius, 0, Math.PI*2, false);
+                c.stroke();
+            }
+
+            this.update = function(){
+                this.setColor();
+                this.drawInner();
+                this.drawOuter();
+                this.drawPulse();
+            }
+        }
+
+        animate();
     </script>
 </body>
 </html>
