@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import paho.mqtt.client as mqtt
 from .models import ReceivedString, Sensor, Node
 import json
@@ -13,6 +13,13 @@ def getCurrentValue(request):
     JSONsend = json.dumps(messageArray)
     messageArray = []
     return HttpResponse(JSONsend)
+
+
+def updateCanvas(request):
+    arrayData = Node.objects.all().values()
+    sensorData = Sensor.objects.all().values()
+
+    return JsonResponse({"arrayData": list(arrayData), "sensorData": list(sensorData)})
 
 
 def index(request):

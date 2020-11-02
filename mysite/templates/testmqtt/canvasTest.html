@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Testing 2D visualization</title>
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
     <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
 </head>
@@ -14,7 +15,11 @@
             <div>help text</div>
         </div>
         <div class="right-container">
-            <div class="test">sensor text</div>
+            <div class="sensor-header">
+                <span>Array Name:</span>
+                <span><input class="array-name" type="text"></span>
+            </div>
+            <div class="sensor-list"></div>
         </div>
     </div>
     <script>
@@ -24,19 +29,45 @@
         canvas.width = canWidth;
         canvas.height = canHeight;
         var c = canvas.getContext('2d');
+        var arrayName = ''
+        var nodeArray = [];
 
         <!-- c.fillRect(x, y, width, height) -->
 
-        var nodeArray = [];
-        {% for node in nodes %}
-            if('{{node.nodeName}}' === 'Random'){
-                {% for sensor in node.sensor_set.all %}
-                    var node = new Node({{sensor.xCoordinate}}, {{sensor.yCoordinate}}, {{sensor.vibrationLevel}});
-                    nodeArray.push(node);
-                    $(".right-container").append("<div>{{sensor.sensorName}}</div>");
-                {% endfor %}
+        setInterval(function(){
+            $.ajax({url: '/updateCanvas',
+                success: function(result){
+                    for(var i = 0; i < result.sensorData.length; i++){
+                        for(var j = 0; j < nodeArray.length; j++){
+                            if(nodeArray[j].name === result.sensorData[i].sensorName){
+                                nodeArray[j].updateData(result.sensorData[i].xCoordinate, result.sensorData[i].yCoordinate, result.sensorData[i].vibrationLevel);
+                            }
+                        }
+                    }
+                }
+            });
+        }, 1000);
+
+        function updateArray(){
+            $(".sensor-list").empty();
+            nodeArray = [];
+            {% for node in nodes %}
+                if('{{node.nodeName}}' === arrayName){
+                    {% for sensor in node.sensor_set.all %}
+                        var node = new Node('{{sensor.sensorName}}');
+                        nodeArray.push(node);
+                        $(".sensor-list").append("<div>{{sensor.sensorName}}</div>");
+                    {% endfor %}
+                }
+            {% endfor %}
+        }
+
+        $(".array-name").on('keypress', function(e){
+            if(e.which == 13){
+                arrayName = $(".array-name").val()
+                updateArray();
             }
-        {% endfor %}
+        });
 
         function animate(){
             requestAnimationFrame(animate);
@@ -46,14 +77,24 @@
             }
         }
 
-        function Node(xCoordinate, yCoordinate, vibration){
-            this.x = xCoordinate;
-            this.y = yCoordinate;
+        function Node(name){
+            this.name = name;
+            this.x = 0;
+            this.y = 0;
             this.innerRadius = 5;
             this.outerRadius = 100;
             this.movingRadius = this.innerRadius;
-            this.speed = vibration;
+            this.speed = 1;
             this.colorString = "#000000";
+
+            this.updateData = function(newX, newY, newV){
+                var numX = parseInt(newX)
+                var numY = parseInt(newY)
+                var numV = parseInt(newV)
+                if(this.x != numX) this.x = numX;
+                if(this.y != numY) this.y = numY;
+                if(this.speed != numV) this.speed = numV;
+            }
 
             this.setColor = function(){
                 switch(this.speed){

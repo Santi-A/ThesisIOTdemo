@@ -6,4 +6,5 @@ urlpatterns = [
     path('dashboard', views.dashboard, name='dashboard'),
     path('canvas', views.canvas, name='canvas'),
     path('getCurrentValue', views.getCurrentValue, name='getCurrentValue'),
+    path('updateCanvas', views.updateCanvas, name='updateCanvas'),
 ]

@@ -20,10 +20,18 @@ canvas {
 
 .left-container{
     width: 502px;
-    background-color: #646464;
+    background-color: #A8A8A8;
 }
 
 .right-container{
     width: 100%;
-    background-color: #444444;
+    background-color: #909090;
+    padding: 10px;
+}
+
+.sensor-header{
+    height: 45px;
+    background-color: #787878;
+    font-size: 20px;
+    padding: 5px;
 }
