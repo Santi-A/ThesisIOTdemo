@@ -13,23 +13,26 @@ body{
     left: 0;
     background-color: #646464;
     overflow-x: hidden;
-    padding-top: 20px;
 }
 
 .sidebar-label{
-    padding: 6px 8px 6px 16px;
+    padding: 10px;
     font-size: 20px;
     color: #FFF;
     margin-bottom: 10px;
     display: block;
+    margin: 20px;
+    text-align: center;
 }
 
 .sidebar a{
-    padding: 0px 0px 0px 16px;
-    text-decoration: none;
     font-size: 20px;
     color: #FFF;
     display: block;
+    margin: 10px;
+    border-style: outset;
+    padding: 10px;
+    text-align: center;
 }
 
 .sidebar a:hover{
@@ -38,5 +41,4 @@ body{
 
 .content{
     margin-left: 150px;
-    padding: 0px 10px;
 }

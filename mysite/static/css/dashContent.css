@@ -1,8 +1,16 @@
 .sensor-container{
     background-color: #646464;
     color: #FFF;
-    height: 150px;
-    margin-top: 10px;
+    height: 225px;
+    margin: 10px;
+    text-align: center;
+    border-style: inset;
+}
+
+.sensor-tag{
+    text-align: center;
+    border-style: inset;
+    text-transform: uppercase;
 }
 
 .sensor-label{
@@ -13,23 +21,37 @@
     height: 135px;
 }
 
+.chart-label{
+    border-style: inset;
+}
+
 .xyz-chart{
     width: 40%;
-    max-height: 135px;
-    display: block;
+    max-height: 200px;
+    display: inline-block;
     float: left;
+    text-align: center;
+    border-style: inset;
+    background-color: black;
 }
 
 .gyro-chart{
     width: 40%;
-    max-height: 135px;
-    display: block;
-    float: left;
+    max-height: 200px;
+    display: inline-block;
+    /* float: left; */
+    text-align: center;
+    border-style: inset;
+    background-color: black;
 }
 
 .temp-chart{
     width: 20%;
-    max-height: 135px;
-    display: block;
+    height: 154px;
+    max-height: 200px;
+    display: inline-block;
     float: left;
+    text-align: center;
+    border-style: inset;
+    background-color: black;
 }
