@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
     <meta charset="UTF-8">
     <title>Dashboard Demo</title>
     {% load static %}
@@ -11,13 +13,20 @@
     <script type='text/javascript' src="{% static 'js/chart.min.js' %}"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="/static/images/DLSU_Logo.png" style="height: 13%;display: block;margin: 14px;margin-bottom: 40px;"></img>
-        <a href="" class="array-select" id="Test">Test</a>
-        <a href="" class="array-select" id="Random">Random</a>
-        <a href="">New Array...</a>
+    <div class="navBar">
+        <ul class="navBar-Content">
+            <li class="navBar-button">
+                <a href="" class="array-select" id="Test">Dashboard</a>
+            </li>
+            <li class="navBar-button">
+                <a href="" class="array-select" id="Random">Random Dashboard</a>
+            </li>
+            <li class="navBar-button">
+                <a href="" class="array-select"  >Feature_1</a>
+            </li>
+        </ul>
     </div>
-    <div class="content-container">
+    <div class="mainArea">
         <div class="content"></div>
     </div>
     <script>

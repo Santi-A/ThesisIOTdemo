@@ -1,17 +1,25 @@
 <div class="sensor-container" id="sensor-container-id">
-    <div class="sensor-tag" id="sensor-tag-id"></div>
+    <div class="sensor-tag-div">
+        <b1 class="sensor-tag" id='sensor-tag-id'></b1> 
+    </div>
     <div class="sensor-chart-container">
-        <div class="xyz-chart">
-            <div class="chart-label">XYZ</div>
-            <canvas id="xyz-chart-id" style="height: 98px;margin-left: 1px;margin-top:20px;width:681px;display:block;"></canvas>
+        <div class="sensor-chart">
+            <div class="chart-label">ACCELEROMETER</div>
+            <div  class="canvas-container">
+                <canvas id="xyz-chart-id"></canvas>
+            </div>
         </div>
-        <div class="gyro-chart">
+        <div class="sensor-chart">
             <div class="chart-label">GYRO</div>
-            <canvas id="gyro-chart-id" style="height: 98px;margin-left: 1px;margin-top:20px;width:681px;display:block;"></canvas>
+            <div  class="canvas-container">
+                <canvas id="gyro-chart-id"></canvas>
+            </div>
         </div>
-        <div class="temp-chart">
+        <div class="sensor-chart">
             <div class="chart-label">TEMP</div>
-            <canvas id="temp-chart-id" style="height: 98px;margin-left: 1px;margin-top:20px;width:681px;display:block;"></canvas>
+            <div  class="canvas-container">
+                <canvas id="temp-chart-id"></canvas>
+            </div>
         </div>
     </div>
     <div id="sensor-input" style="visibility: hidden"></div>
@@ -70,7 +78,11 @@
         type: 'line',
         data: startData,
         options: {
-            legend: {display: false},
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+            },
             scales:{
                 yAxes: [{
                     ticks: {
@@ -93,7 +105,9 @@
         type: 'line',
         data: startData,
         options: {
-            legend: {display: false},
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {display: true},
             scales:{
                 yAxes: [{
                     ticks: {

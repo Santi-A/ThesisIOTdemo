@@ -1,44 +1,40 @@
 body{
+    margin:0;
+    display: block;
+    background-color: gray;
+}
+
+.navBar{
+    margin-bottom: 10px;
+}
+
+.navBar-Content {
+    list-style-type: none;
     margin: 0;
     padding: 0;
-    background-color: #444444;
+    overflow: hidden;
+    background-color: #333;
+    position:static;
+    top:0;
+    width: 100%;
+    border-bottom: solid;
+    border-bottom-color: gray;
 }
 
-.sidebar{
+.navBar-button {
+    float: left;
+}
+
+.array-select {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px 20px;
+    text-decoration: none;
+}
+
+.mainArea{
+    width: 100%;
     height: 100%;
-    width: 150px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #646464;
-    overflow-x: hidden;
-}
-
-.sidebar-label{
-    padding: 10px;
-    font-size: 20px;
-    color: #FFF;
-    margin-bottom: 10px;
-    display: block;
-    margin: 20px;
-    text-align: center;
-}
-
-.sidebar a{
-    font-size: 20px;
-    color: #FFF;
-    display: block;
-    margin: 10px;
-    border-style: outset;
-    padding: 10px;
-    text-align: center;
-}
-
-.sidebar a:hover{
-    color: #999;
-}
-
-.content{
-    margin-left: 150px;
+    background-color: gray;
 }
