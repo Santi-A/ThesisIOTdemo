@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing 2D visualization</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
+    <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="left-container">
+            <canvas></canvas>
+            <div>help text</div>
+        </div>
+        <div class="right-container">
+            <div class="sensor-header">
+                <span>Array Name:</span>
+                <span><input class="array-name" type="text"></span>
+            </div>
+            <div class="point-list"></div>
+        </div>
+    </div>
+    <script>
+        var canvas = document.querySelector('canvas');
+        var canWidth = 500;
+        var canHeight = 500;
+        canvas.width = canWidth;
+        canvas.height = canHeight;
+        var c = canvas.getContext('2d');
+        c.translate(canWidth * 0.5, canHeight * 0.5);
+        c.scale(1, -1);
+        var arrayName = '';
+        var pointArray = [];
+
+        function updateArray(){
+            $(".point-list").empty();
+            pointArray = [];
+            {% for node in nodes %}
+                if('{{node.nodeName}}' === arrayName){
+                    {% for point in node.point_set.all %}
+                        var point = new Point('{{point.pointName}}');
+                        {% for connectedNode in point.connectedNodes.all %}
+                            point.connectedPoints.push('{{connectedNode}}');
+                        {% endfor %}
+                        if('{{point.startRight}}' == 'False') point.right = false;
+                        if('{{point.startUp}}' == 'False') point.up = false;
+                        point.range = Math.abs(({{point.yCoordinate}} / Math.sqrt(3))/2);
+                        point.dx = point.range/50;
+                        pointArray.push(point);
+                        $(".point-list").append("<div>{{point.pointName}}</div>");
+                    {% endfor %}
+                }
+            {% endfor %}
+            console.log(pointArray)
+        }
+
+        $(".array-name").on('keypress', function(e){
+            if(e.which == 13){
+                arrayName = $(".array-name").val()
+                updateArray();
+            }
+        });
+
+        setInterval(function(){
+            $.ajax({url: '/updateCanvasPoints',
+                success: function(result){
+                    for(var i = 0; i < result.data.length; i++){
+                        for(var j = 0; j < pointArray.length; j++){
+                            if(pointArray[j].name === result.data[i].pointName){
+                                pointArray[j].updateData(result.data[i].xCoordinate, result.data[i].yCoordinate, result.data[i].zCoordinate);
+                            }
+                        }
+                    }
+                }
+            });
+        }, 1000);
+
+        function Point(name){
+            this.name = name;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.xanim = 0;
+            this.yanim = 0;
+            this.range = 3;
+            this.dx = 0.1;
+            this.right = true;
+            this.up = true;
+            this.perspectiveOffset = 0;
+            this.pointRadius = 3;
+            this.connectedPoints = [];
+
+            this.updateData = function(newX, newY, newZ){
+                var numX = parseInt(newX)
+                var numY = parseInt(newY)
+                var numZ = parseInt(newZ)
+                if(this.z != numZ) this.z = numZ;
+                this.perspectiveOffset = 5 + (this.z * 0.1)
+                if(this.x != numX * this.perspectiveOffset){
+                    this.x = numX * this.perspectiveOffset;
+                    this.xanim = this.x;
+                 }
+                if(this.y != numY * this.perspectiveOffset){
+                    this.y = numY * this.perspectiveOffset;
+                    this.yanim = this.y;
+                }
+            }
+
+            this.draw = function(){
+                c.beginPath();
+                c.arc(this.xanim, this.y, this.pointRadius, 0, Math.PI*2, false);
+                c.fill();
+            }
+
+            this.drawLines = function(){
+                for(var cpi = 0; cpi < this.connectedPoints.length; cpi++){
+                    c.moveTo(this.xanim, this.y);
+                    var secondX = 0;
+                    var secondY = 0;
+                    for(var ari = 0; ari < pointArray.length; ari++){
+                        if(pointArray[ari].name === this.connectedPoints[cpi]){
+                            secondX = pointArray[ari].xanim;
+                            secondY = pointArray[ari].y;
+                        }
+                    }
+                    c.lineTo(secondX, secondY);
+                    c.stroke();
+                }
+            }
+
+            this.movePoint = function(){
+                if(this.right){
+                    if(this.xanim + this.dx <= this.x + this.range) this.xanim += this.dx;
+                    else this.right = false;
+                }
+                else{
+                    if(this.xanim - this.dx >= this.x - this.range) this.xanim -= this.dx;
+                    else this.right = true;
+                }
+
+                if(this.up){
+                    if(this.yanim + this.dx <= this.y + this.range) this.yanim += this.dx;
+                    else this.up = false;
+                }
+                else{
+                    if(this.yanim - this.dx >= this.y - this.range) this.yanim -= this.dx;
+                    else this.up = true;
+                }
+            }
+
+            this.update = function(){
+                this.movePoint();
+                this.draw();
+                this.drawLines();
+            }
+        }
+
+        function animate(){
+            requestAnimationFrame(animate);
+            c.save();
+            c.setTransform(1,0,0,1,0,0)
+            c.clearRect(0, 0, canWidth, canHeight);
+            c.restore();
+            for(var i = 0; i < pointArray.length; i++){
+                pointArray[i].update();
+            }
+        }
+
+        animate();
+
+    </script>
+</body>
+</html>

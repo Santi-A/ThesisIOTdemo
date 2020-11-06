@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fd40995-02f7-4069-b62e-b9742fe5f115" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/mysite/static/css/dashContent.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysite/static/css/dashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysite/static/html/dashContent.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysite/static/html/sensorContainer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysite/templates/testmqtt/dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/templates/testmqtt/canvasWire.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/templates/testmqtt/threevisualization.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/testmqtt/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/testmqtt/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/testmqtt/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/testmqtt/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/testmqtt/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/testmqtt/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/testmqtt/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/testmqtt/views.py" afterDir="false" />
     </list>
@@ -32,7 +32,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/mysite/static/js" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -86,7 +86,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\Santi\Desktop\thesis\aaaaaaaaaaaaa\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../publish loop" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -100,6 +100,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.mqtt" />
+      <item itemvalue="Python.publish_loop" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.publish_loop" />

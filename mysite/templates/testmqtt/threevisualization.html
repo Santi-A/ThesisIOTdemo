@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing 2D visualization</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
+    <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
+    <script src="http://threejs.org/build/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="left-container">
+            <canvas></canvas>
+            <div>help text</div>
+        </div>
+        <div class="right-container">
+            <div class="sensor-header">
+                <span>Array Name:</span>
+                <span><input class="array-name" type="text"></span>
+            </div>
+            <div class="point-list"></div>
+        </div>
+    </div>
+    <script>
+        var canvas = document.querySelector('canvas');
+        var canWidth = 500;
+        var canHeight = 500;
+        canvas.width = canWidth;
+        canvas.height = canHeight;
+        var arrayName = '';
+        var pointArray = [];
+        var geometryLines = [];
+
+        var renderer = new THREE.WebGLRenderer({ canvas: canvas });
+        scene = new THREE.Scene();
+		camera = new THREE.PerspectiveCamera(50, 1, 1, 10000);
+	    camera.position.set(0, 0, 1000);
+
+	    controls = new THREE.OrbitControls (camera,renderer.domElement );
+        controls.update();
+
+        var geometry = new THREE.BoxGeometry( 10, 10, 10 );
+        var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+        var materialline = new THREE.LineBasicMaterial({color: 0xA35F77});
+        var geometryline = new THREE.Geometry();
+
+        /*
+        setInterval(function(){
+            $.ajax({url: '/updateCanvasPoints',
+                success: function(result){
+                    for(var i = 0; i < result.data.length; i++){
+                        for(var j = 0; j < pointArray.length; j++){
+                            if(pointArray[j].name === result.data[i].pointName){
+                                pointArray[j].updateData(result.data[i].xCoordinate, result.data[i].yCoordinate, result.data[i].zCoordinate);
+                            }
+                        }
+                    }
+                }
+            });
+        }, 1000);
+        */
+
+        function Point(name, x, y, z){
+            this.name = name;
+            this.x = x*10;
+            this.y = y*10;
+            this.z = z*10;
+            this.xanim = this.x;
+            this.yanim = this.y;
+            this.zanim = this.z;
+            this.range = 3;
+            this.dx = 0.1;
+            this.right = true;
+            this.up = true;
+            this.connectedPoints = [];
+            this.cube;
+
+            this.updateData = function(newX, newY, newZ){
+                var numX = parseInt(newX)
+                var numY = parseInt(newY)
+                var numZ = parseInt(newZ)
+                if(this.x != numX){
+                    this.x = numX;
+                    this.xanim = this.x;
+                 }
+                if(this.y != numY){
+                    this.y = numY;
+                    this.yanim = this.y;
+                }
+                if(this.z != numZ){
+                    this.z = numZ;
+                    this.zanim = this.z;
+                }
+            }
+
+            this.setDirection = function(){
+                //logic for cw or ccw movement (placeholder movement)
+                if(this.z > 0){ //cw
+                    if(this.y > 0){ //right
+                        this.right = true;
+                    }
+                    else{ //left
+                        this.right = false;
+                    }
+                }
+                else if(this.z < 0){ //ccw
+                    if(this.y > 0){ //left
+                        this.right = false;
+                    }
+                    else{ //right
+                        this.right = true;
+                    }
+                }
+                else{ //stationary
+                    this.dx = 0;
+                }
+            }
+
+            this.draw = function(){
+                this.cube = new THREE.Mesh( geometry, material );
+                this.cube.position.setX(this.xanim);
+                this.cube.position.setY(this.y);
+                this.cube.position.setZ(this.z);
+                scene.add( this.cube );
+            }
+
+            this.drawLines = function(){
+                for(var cpi = 0; cpi < this.connectedPoints.length; cpi++){
+                    for(var ari = 0; ari < pointArray.length; ari++){
+                        if(pointArray[ari].name === this.connectedPoints[cpi]){
+                            let geometryline = new THREE.Geometry();
+                            geometryline.vertices.push(this.cube.position, pointArray[ari].cube.position)
+                            var line = new THREE.Line( geometryline, materialline );
+                            geometryLines.push(geometryline);
+                            scene.add(line);
+                        }
+                    }
+                }
+            }
+
+            this.update = function(){
+                if(this.right){
+                    if(this.xanim + this.dx <= this.x + this.range) this.xanim += this.dx;
+                    else this.right = false;
+                }
+                else{
+                    if(this.xanim - this.dx >= this.x - this.range) this.xanim -= this.dx;
+                    else this.right = true;
+                }
+                this.cube.position.setX(this.xanim)
+            }
+        }
+
+        function init(){
+            for(var k = 0; k < pointArray.length; k++){
+                pointArray[k].draw();
+            }
+            for(var k = 0; k < pointArray.length; k++){
+                pointArray[k].drawLines();
+            }
+        }
+
+        function animate(){
+            requestAnimationFrame( animate );
+            controls.update();
+            for(var g = 0; g < geometryLines.length; g++){
+                geometryLines[g].verticesNeedUpdate = true;
+            }
+            for(var p = 0; p < pointArray.length; p++){
+                pointArray[p].update();
+            }
+            renderer.render( scene, camera );
+        }
+
+        function updateArray(){
+            $(".point-list").empty();
+            pointArray = [];
+            {% for node in nodes %}
+                if('{{node.nodeName}}' === arrayName){
+                    {% for point in node.point_set.all %}
+                        var point = new Point('{{point.pointName}}', {{point.xCoordinate}}, {{point.yCoordinate}}, {{point.zCoordinate}});
+                        point.setDirection();
+                        {% for connectedNode in point.connectedNodes.all %}
+                            point.connectedPoints.push('{{connectedNode}}');
+                        {% endfor %}
+                        point.range = Math.abs(({{point.yCoordinate}} / Math.sqrt(3))/2);
+                        point.dx = point.range/50;
+                        pointArray.push(point);
+                        $(".point-list").append("<div>{{point.pointName}}</div>");
+                    {% endfor %}
+                }
+            {% endfor %}
+            console.log(pointArray)
+        }
+
+        $(".array-name").on('keypress', function(e){
+            if(e.which == 13){
+                arrayName = $(".array-name").val()
+                updateArray();
+                init();
+            }
+        });
+
+        animate();
+
+    </script>
+</body>
+</html>

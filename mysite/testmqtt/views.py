@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import paho.mqtt.client as mqtt
-from .models import ReceivedString, Sensor, Node
+from .models import ReceivedString, Sensor, Node, Point
 import json
 import datetime
 
@@ -22,6 +22,12 @@ def updateCanvas(request):
     return JsonResponse({"arrayData": list(arrayData), "sensorData": list(sensorData)})
 
 
+def updateCanvasPoints(request):
+    data = Point.objects.all().values()
+
+    return JsonResponse({"data": list(data)})
+
+
 def index(request):
     return render(request, 'testmqtt/index.html')
 
@@ -35,6 +41,14 @@ def canvas(request):
         'nodes': Node.objects.all()
     }
     return render(request, 'testmqtt/canvasTest.html', context)
+
+
+def canvasWire(request):
+    context = {
+        'nodes': Node.objects.all()
+    }
+    return render(request, 'testmqtt/threevisualization.html', context)
+    # return render(request, 'testmqtt/canvasWire.html', context)
 
 
 def on_message(client, userdata, msg):
