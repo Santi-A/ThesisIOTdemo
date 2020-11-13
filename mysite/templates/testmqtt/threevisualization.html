@@ -18,8 +18,15 @@
         </div>
         <div class="right-container">
             <div class="sensor-header">
-                <span>Array Name:</span>
+                <span>Existing Array Name</span>
                 <span><input class="array-name" type="text"></span>
+            </div>
+            <div class="sensor-header">
+                <span>Floor Count</span>
+                <span><input class="num-input" id="floor-count" type="number" min="1" value="1"></span>
+                <span>Nodes Per Floor</span>
+                <span><input class="num-input" id="nodes-floor-count" type="number" min="4" value="4"></span>
+                <span><input class="submit-temp" type="button" value="Generate New Nodes"></span>
             </div>
             <div class="point-list"></div>
         </div>
@@ -175,9 +182,12 @@
             renderer.render( scene, camera );
         }
 
-        function updateArray(){
+        function updateExistingArray(){ //"existing" is in the context of the SQLite database
             $(".point-list").empty();
             pointArray = [];
+            while(scene.children.length > 0){
+                scene.remove(scene.children[0]);
+            }
             {% for node in nodes %}
                 if('{{node.nodeName}}' === arrayName){
                     {% for point in node.point_set.all %}
@@ -196,13 +206,74 @@
             console.log(pointArray)
         }
 
+        function generateArray(){
+            var numFloors = $("#floor-count").val();
+            var numNodes = $("#nodes-floor-count").val();
+            $(".point-list").empty();
+            pointArray = [];
+            while(scene.children.length > 0){
+                scene.remove(scene.children[0]);
+            }
+            for(var i = 0; i < numFloors; i++){
+                createDefaultNodes(i);
+                for(var j = 4; j < numNodes; j++){
+                    var point = new Point('test', 0, (i)*20, 0);
+                    point.setDirection();
+                    pointArray.push(point);
+                }
+            }
+        }
+
+        function createDefaultNodes(floor){
+            var point = new Point('NW' + (floor+1), -10, floor*20, -10);
+            point.setDirection();
+            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);
+            point.dx = point.range/50;
+            point.connectedPoints.push('NE' + (floor+1));
+            point.connectedPoints.push('SW' + (floor+1));
+            if(floor) point.connectedPoints.push('NW' + (floor));
+            pointArray.push(point);
+
+            var point = new Point('NE' + (floor+1), 10, floor*20, -10);
+            point.setDirection();
+            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);
+            point.dx = point.range/50;
+            point.connectedPoints.push('NW' + (floor+1));
+            point.connectedPoints.push('SE' + (floor+1));
+            if(floor) point.connectedPoints.push('NE' + (floor));
+            pointArray.push(point);
+
+            var point = new Point('SE' + (floor+1), 10, floor*20, 10);
+            point.setDirection();
+            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);
+            point.dx = point.range/50;
+            point.connectedPoints.push('NE' + (floor+1));
+            point.connectedPoints.push('SW' + (floor+1));
+            if(floor) point.connectedPoints.push('SE' + (floor));
+            pointArray.push(point);
+
+            var point = new Point('SW' + (floor+1), -10, floor*20, 10);
+            point.setDirection();
+            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);
+            point.dx = point.range/50;
+            point.connectedPoints.push('NW' + (floor+1));
+            point.connectedPoints.push('SE' + (floor+1));
+            if(floor) point.connectedPoints.push('SW' + (floor));
+            pointArray.push(point);
+        }
+
         $(".array-name").on('keypress', function(e){
             if(e.which == 13){
                 arrayName = $(".array-name").val()
-                updateArray();
+                updateExistingArray();
                 init();
             }
         });
+
+        $(".submit-temp").on('click', function(e){
+            generateArray();
+            init();
+        })
 
         animate();
 

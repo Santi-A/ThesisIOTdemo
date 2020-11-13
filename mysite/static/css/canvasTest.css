@@ -30,8 +30,13 @@ canvas {
 }
 
 .sensor-header{
-    height: 45px;
+    min-height: 45px;
     background-color: #787878;
     font-size: 20px;
     padding: 5px;
+    margin-bottom: 10px;
+}
+
+.num-input{
+    width: 50px;
 }

@@ -41,8 +41,6 @@ class Point(models.Model):
     zCoordinate = models.CharField('Z Coordinate', default='', max_length=255)
     parent = models.ForeignKey('Node', on_delete=models.SET_NULL, null=True, blank=True)
     connectedNodes = models.ManyToManyField('Point', null=True, blank=True)
-    startRight = models.BooleanField()
-    startUp = models.BooleanField()
 
     def __str__(self):
         return self.pointName
