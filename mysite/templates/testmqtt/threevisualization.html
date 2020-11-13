@@ -84,6 +84,7 @@
             this.up = true;
             this.connectedPoints = [];
             this.cube;
+            this.floor = 0;
 
             this.updateData = function(newX, newY, newZ){
                 var numX = parseInt(newX)
@@ -183,11 +184,6 @@
         }
 
         function updateExistingArray(){ //"existing" is in the context of the SQLite database
-            $(".point-list").empty();
-            pointArray = [];
-            while(scene.children.length > 0){
-                scene.remove(scene.children[0]);
-            }
             {% for node in nodes %}
                 if('{{node.nodeName}}' === arrayName){
                     {% for point in node.point_set.all %}
@@ -209,19 +205,17 @@
         function generateArray(){
             var numFloors = $("#floor-count").val();
             var numNodes = $("#nodes-floor-count").val();
-            $(".point-list").empty();
-            pointArray = [];
-            while(scene.children.length > 0){
-                scene.remove(scene.children[0]);
-            }
             for(var i = 0; i < numFloors; i++){
                 createDefaultNodes(i);
                 for(var j = 4; j < numNodes; j++){
                     var point = new Point('test', 0, (i)*20, 0);
                     point.setDirection();
+                    point.floor = i + 1;
                     pointArray.push(point);
                 }
+                floorDetails(i);
             }
+            $(".point-list").append('<div class="floor-container">Add a floor...</div>')
         }
 
         function createDefaultNodes(floor){
@@ -232,6 +226,7 @@
             point.connectedPoints.push('NE' + (floor+1));
             point.connectedPoints.push('SW' + (floor+1));
             if(floor) point.connectedPoints.push('NW' + (floor));
+            point.floor = floor + 1;
             pointArray.push(point);
 
             var point = new Point('NE' + (floor+1), 10, floor*20, -10);
@@ -241,6 +236,7 @@
             point.connectedPoints.push('NW' + (floor+1));
             point.connectedPoints.push('SE' + (floor+1));
             if(floor) point.connectedPoints.push('NE' + (floor));
+            point.floor = floor + 1;
             pointArray.push(point);
 
             var point = new Point('SE' + (floor+1), 10, floor*20, 10);
@@ -250,6 +246,7 @@
             point.connectedPoints.push('NE' + (floor+1));
             point.connectedPoints.push('SW' + (floor+1));
             if(floor) point.connectedPoints.push('SE' + (floor));
+            point.floor = floor + 1;
             pointArray.push(point);
 
             var point = new Point('SW' + (floor+1), -10, floor*20, 10);
@@ -259,18 +256,51 @@
             point.connectedPoints.push('NW' + (floor+1));
             point.connectedPoints.push('SE' + (floor+1));
             if(floor) point.connectedPoints.push('SW' + (floor));
+            point.floor = floor + 1;
             pointArray.push(point);
+        }
+
+        function floorDetails(floorNum){
+            const floorVal = floorNum + 1;
+            const floorDiv= '<div class="floor-container">' +
+                                'Floor ' + floorVal +
+                                '<div class="floor-' + floorVal + '-content"></div>'
+                            '</div>';
+            $(".point-list").append(floorDiv);
+            for(var fd = 0; fd < pointArray.length; fd++){
+                if(floorVal === pointArray[fd].floor) nodeDetails(fd);
+            }
+            $(".floor-" + floorVal + "-content").append('<div class="node-container">Add a Node...</div>');
+        }
+
+        function nodeDetails(arrayIndex){
+            const node = pointArray[arrayIndex];
+            const nodeDiv = '<div class="node-container">' +
+                                node.name +
+                                '<div>Will put relevant information here</div>'
+                            '</div>'
+            $(".floor-" + node.floor + "-content").append(nodeDiv);
         }
 
         $(".array-name").on('keypress', function(e){
             if(e.which == 13){
-                arrayName = $(".array-name").val()
+                arrayName = $(".array-name").val();
+                $(".point-list").empty();
+                pointArray = [];
+                while(scene.children.length > 0){
+                    scene.remove(scene.children[0]);
+                }
                 updateExistingArray();
                 init();
             }
         });
 
         $(".submit-temp").on('click', function(e){
+            $(".point-list").empty();
+            pointArray = [];
+            while(scene.children.length > 0){
+                scene.remove(scene.children[0]);
+            }
             generateArray();
             init();
         })
