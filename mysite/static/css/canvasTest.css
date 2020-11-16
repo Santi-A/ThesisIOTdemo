@@ -44,6 +44,11 @@ canvas {
     width: 50px;
 }
 
+.pos-input{
+    width: 80px;
+    margin-right: 20px;
+}
+
 .floor-container{
     background-color: #787878;
     font-size: 20px;
