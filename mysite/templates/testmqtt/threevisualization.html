@@ -142,11 +142,8 @@
                 for(var cpi = 0; cpi < this.connectedPoints.length; cpi++){
                     for(var ari = 0; ari < pointArray.length; ari++){
                         if(pointArray[ari].name === this.connectedPoints[cpi]){
-                            let geometryline = new THREE.Geometry();
-                            geometryline.vertices.push(this.cube.position, pointArray[ari].cube.position)
-                            var line = new THREE.Line( geometryline, materialline );
-                            geometryLines.push(geometryline);
-                            scene.add(line);
+                            let newLine = new Line(this, pointArray[ari]);
+                            newLine.checkLines();
                         }
                     }
                 }
@@ -173,6 +170,39 @@
             }
         }
 
+        function Line(p1, p2){
+            this.point1 = p1;
+            this.point2 = p2;
+            this.geometryLine;
+
+            this.checkLines = function(){
+                var lineExists = false;
+                for(var lineIndex = 0; lineIndex < geometryLines.length; lineIndex++){
+                    var comparePoint1 = geometryLines[lineIndex].point1.name;
+                    var comparePoint2 = geometryLines[lineIndex].point2.name;
+                    if(this.point1.name === comparePoint1 && this.point2.name === comparePoint2){
+                        lineExists = true;
+                    }
+                    else if(this.point1.name === comparePoint2 && this.point2.name === comparePoint1){
+                        lineExists = true;
+                    }
+                }
+                if(!lineExists){
+                    this.drawLine();
+                }
+            }
+
+            this.drawLine = function(){
+                this.geometryLine = new THREE.Geometry();
+                this.geometryLine.vertices.push(this.point1.cube.position, this.point2.cube.position)
+                var line = new THREE.Line( this.geometryLine, materialline );
+                geometryLines.push(this);
+                scene.add(line);
+            }
+
+
+        }
+
         function init(){
             for(var k = 0; k < pointArray.length; k++){
                 pointArray[k].draw();
@@ -186,7 +216,7 @@
             requestAnimationFrame( animate );
             controls.update();
             for(var g = 0; g < geometryLines.length; g++){
-                geometryLines[g].verticesNeedUpdate = true;
+                geometryLines[g].geometryLine.verticesNeedUpdate = true;
             }
             for(var p = 0; p < pointArray.length; p++){
                 pointArray[p].update();
@@ -313,6 +343,7 @@
                 arrayName = $(".array-name").val();
                 $(".point-list").empty();
                 pointArray = [];
+                geometryLines = [];
                 while(scene.children.length > 0){
                     scene.remove(scene.children[0]);
                 }
@@ -324,6 +355,7 @@
         $(".submit-temp").on('click', function(e){
             $(".point-list").empty();
             pointArray = [];
+            geometryLines = [];
             while(scene.children.length > 0){
                 scene.remove(scene.children[0]);
             }
