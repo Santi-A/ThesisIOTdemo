@@ -33,6 +33,14 @@ body{
     text-decoration: none;
 }
 
+.page-select {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px 20px;
+    text-decoration: none;
+}
+
 .mainArea{
     width: 100%;
     height: 100%;
