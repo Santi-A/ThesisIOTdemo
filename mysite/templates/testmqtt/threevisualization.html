@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>Testing 2D visualization</title>
     {% load static %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
     <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="http://threejs.org/build/three.min.js"></script>
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
 </head>
 <body>
     <div class="page-container">
@@ -32,6 +33,20 @@
             <div class="point-list"></div>
         </div>
     </div>
+    <div id="nodeModal" class="modal fade" role="dialog" data-backdrop="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Connected Nodes</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="connected-node-options"></div>
+                    <input type="hidden" id="current-node-parent" value="0">
+                    <input type="button" value="Update Connected Nodes" onclick="updateConnectedNodes()">
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         var canvas = document.querySelector('canvas');
         var canWidth = 500;
@@ -41,12 +56,16 @@
         var arrayName = '';
         var pointArray = [];
         var geometryLines = [];
+        var targetList = [];
         var isAnimating = false;
 
         var renderer = new THREE.WebGLRenderer({ canvas: canvas });
         scene = new THREE.Scene();
 		camera = new THREE.PerspectiveCamera(50, 1, 1, 10000);
 	    camera.position.set(0, 0, 1000);
+
+	    var raycaster = new THREE.Raycaster();
+        var mouse = new THREE.Vector2();
 
 	    controls = new THREE.OrbitControls (camera,renderer.domElement );
         controls.update();
@@ -135,7 +154,9 @@
                 this.cube.position.setX(this.xanim);
                 this.cube.position.setY(this.y);
                 this.cube.position.setZ(this.z);
+                this.cube.name = this.name;
                 scene.add( this.cube );
+                targetList.push(this.cube);
             }
 
             this.drawLines = function(){
@@ -162,7 +183,7 @@
                     this.cube.position.setX(this.xanim);
                 }
                 else{
-                    this.xanim = this.x;
+                    //this.xanim = this.x;
                     this.cube.position.setX(this.xanim);
                     this.cube.position.setY(this.yanim);
                     this.cube.position.setZ(this.zanim);
@@ -322,7 +343,7 @@
                                     '<span>X<input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '"></span>' +
                                     '<span>Y<input id="nodey-' + arrayIndex + '" class="pos-input" type="number" value="' + node.y + '"></span>' +
                                     '<span>Z<input id="nodez-' + arrayIndex + '" class="pos-input" type="number" value="' + node.z + '"></span>' +
-                                    '<span><button value="' + arrayIndex + '">Configure Connected Nodes</button></span>' +
+                                    '<span><input type="button" value="Configure Connected Nodes" onclick="setConnectedNodes(' + arrayIndex + ')"></span>' +
                                 '</div>' +
                             '</div>'
             $(".floor-" + node.floor + "-content").append(nodeDiv);
@@ -338,12 +359,81 @@
             pointArray[arrayIndex].updateCoordinates(xNew, yNew, zNew);
         }
 
+        function setConnectedNodes(arrayIndex){
+            $('#current-node-parent').attr('value', arrayIndex);
+            $(".connected-node-options").empty();
+            $(".connected-node-options").append('Parent Node: ' + pointArray[arrayIndex].name + '<br>');
+            for(var n = 0; n < pointArray.length; n++){
+                if(n != arrayIndex){
+                    var name = pointArray[n].name;
+                    var checkboxString = '<input type="checkbox" name="chk[]" value="' + name + '">' + name + '<br>';
+                    $(".connected-node-options").append(checkboxString);
+                }
+            }
+            var connected = pointArray[arrayIndex].connectedPoints;
+            $('input[name="chk[]"]').each(function(){
+                var isChecked = false;
+                var reference = $(this);
+                for(var n = 0; n < connected.length; n++){
+                    if(connected[n] === reference.val()) isChecked = true;
+                }
+                if(isChecked) reference.prop('checked', true);
+            })
+            $("#nodeModal").modal();
+        }
+
+        function updateConnectedNodes(){
+            var parentNode = parseInt($('#current-node-parent').val());
+            var newConnected = []
+            $('input[name="chk[]"]:checked').each(function(){
+                newConnected.push($(this).val())
+            })
+            pointArray[parentNode].connectedPoints = newConnected;
+            geometryLines = [];
+            while(scene.children.length > 0){
+                scene.remove(scene.children[0]);
+            }
+            init();
+        }
+
+        function onDocumentMouseDown(event){
+            mouse.x = ( (event.clientX - renderer.domElement.offsetLeft) / renderer.domElement.width) * 2 - 1;
+            mouse.y = - ( (event.clientY - renderer.domElement.offsetTop) / renderer.domElement.height) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            var intersects = raycaster.intersectObjects(targetList);
+
+            if (intersects.length > 0) {
+                isAnimating = false;
+                console.log(intersects[0].object.name);
+                setHighlight(intersects[0].object);
+            }
+        }
+
+        function setHighlight(object){
+            scene.remove(scene.getObjectByName('highlight'));
+
+            var highlightGeometry = new THREE.SphereGeometry(20, 32, 32);
+            var highlightMaterial = new THREE.MeshBasicMaterial({color: 0xffff00});
+            highlightMaterial.transparent = true;
+            highlightMaterial.opacity = 0.5;
+
+            var highlightSphere = new THREE.Mesh(highlightGeometry, highlightMaterial);
+            highlightSphere.position.setX(object.position.x);
+            highlightSphere.position.setY(object.position.y);
+            highlightSphere.position.setZ(object.position.z);
+            highlightSphere.name = 'highlight';
+
+            scene.add(highlightSphere);
+        }
+
         $(".array-name").on('keypress', function(e){
             if(e.which == 13){
                 arrayName = $(".array-name").val();
                 $(".point-list").empty();
                 pointArray = [];
                 geometryLines = [];
+                targetList = [];
                 while(scene.children.length > 0){
                     scene.remove(scene.children[0]);
                 }
@@ -356,6 +446,7 @@
             $(".point-list").empty();
             pointArray = [];
             geometryLines = [];
+            targetList = [];
             while(scene.children.length > 0){
                 scene.remove(scene.children[0]);
             }
@@ -364,11 +455,12 @@
         });
 
         $(".animation-toggle").on('click', function(e){
+            if(!isAnimating) scene.remove(scene.getObjectByName('highlight'));
             isAnimating = !isAnimating;
         });
 
+        canvas.addEventListener('click', onDocumentMouseDown, false);
         animate();
-
     </script>
 </body>
 </html>
