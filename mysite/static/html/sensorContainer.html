@@ -17,7 +17,7 @@
         </div>
         <div class="sensor-chart">
             <div class="chart-label">TEMP</div>
-            <div  class="canvas-container">
+            <div  class="canvas-container-TEMP">
                 <canvas id="temp-chart-id"></canvas>
             </div>
         </div>
@@ -40,6 +40,7 @@
 
     var XYZcanvas = document.getElementById(XYZ);
     var GYROcanvas = document.getElementById(GYRO);
+    var TEMPcanvas = document.getElementById(TEMP);
     var startData = {
         labels: [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
         datasets: [
@@ -120,5 +121,29 @@
     });
 
     compareCharts.push({id: arrayID + "-" + GYRO, chart: updatingChart})
+
+
+    var ctx = TEMPcanvas.getContext('2d'),
+        startingData = startData,
+        latestLabel = startingData.labels[20];
+
+    var updatingChart = new Chart(ctx, {
+        type: 'line',
+        data: startData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales:{
+                yAxes: [{
+                    ticks: {
+                        max: 60,
+                        min: 0,
+                    }
+                }]
+            }
+        }
+    });
+
+    compareCharts.push({id: arrayID + "-" + TEMP, chart: updatingChart})
 
 </script>
