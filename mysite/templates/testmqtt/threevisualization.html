@@ -32,7 +32,9 @@
                 <span><input class="num-input" id="nodes-floor-count" type="number" min="4" value="4"></span>
                 <span><input class="submit-temp" type="button" value="Generate New Nodes"></span>
             </div>
-            <div class="point-list"></div>
+            <div class="point-list">
+                <div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>
+            </div>
         </div>
     </div>
     <div id="nodeModal" class="modal fade" role="dialog" data-backdrop="true">
@@ -60,6 +62,7 @@
         var geometryLines = [];
         var targetList = [];
         var isAnimating = false;
+        var floorCount = 0;
 
         var renderer = new THREE.WebGLRenderer({ canvas: canvas });
         scene = new THREE.Scene();
@@ -268,18 +271,29 @@
 
         function generateArray(){
             var numFloors = $("#floor-count").val();
+            floorCount = parseInt(numFloors);
             var numNodes = $("#nodes-floor-count").val();
             for(var i = 0; i < numFloors; i++){
                 createDefaultNodes(i);
                 for(var j = 4; j < numNodes; j++){
-                    var point = new Point('test', 0, (i)*20, 0);
+                    var point = new Point('new(' + pointArray.length + ')', 0, (i)*20, 0);
                     point.setDirection();
                     point.floor = i + 1;
                     pointArray.push(point);
                 }
                 floorDetails(i);
             }
-            $(".point-list").append('<div class="floor-container">Add a floor...</div>')
+            $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
+        }
+
+        function addFloor(){
+            $("#add-floor").remove();
+            floorDetails(floorCount);
+            floorCount++;
+            $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
+        }
+
+        function addNode(){
         }
 
         function createDefaultNodes(floor){
@@ -334,7 +348,7 @@
             for(var fd = 0; fd < pointArray.length; fd++){
                 if(floorVal === pointArray[fd].floor) nodeDetails(fd);
             }
-            $(".floor-" + floorVal + "-content").append('<div class="node-container">Add a Node...</div>');
+            $(".floor-" + floorVal + "-content").append('<div class="node-container" id="add-node-' + floorVal + '"><input type="button" value="Add a Node" onClick="addNode()"></div>');
         }
 
         function nodeDetails(arrayIndex){
@@ -391,11 +405,25 @@
                 newConnected.push($(this).val())
             })
             pointArray[parentNode].connectedPoints = newConnected;
+            for(var i = 0; i < pointArray.length; i++){
+                for(var j = 0; j < newConnected.length; j++){
+                    if(pointArray[i].name === newConnected[j]){
+                        var alreadyConnected = false;
+                        for(var k = 0; k < pointArray[i].connectedPoints.length; k++){
+                            if(pointArray[i].connectedPoints[k] === pointArray[parentNode].name) alreadyConnected = true;
+                        }
+                        if(!alreadyConnected){
+                            pointArray[i].connectedPoints.push(pointArray[parentNode].name);
+                        }
+                    }
+                }
+            }
             geometryLines = [];
             while(scene.children.length > 0){
                 scene.remove(scene.children[0]);
             }
             init();
+            $("#nodeModal").modal('hide');
         }
 
         function onDocumentMouseDown(event){
