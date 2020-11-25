@@ -374,7 +374,7 @@
             const nodeDiv = '<div class="node-container">' +
                                 '<span><input id="nodename-' + arrayIndex + '" type="text" value="' + node.name + '"></span>' +
                                 '<span><input type="button" value="Update Node" onclick="updateNodeDetails(' + arrayIndex + ')"></span>' +
-                                '<span><input type="button" value="Delete Node" onclick"deleteNode(' + arrayIndex + ')"></span>' +
+                                '<span><input type="button" value="Delete Node" onclick="deleteNode(' + arrayIndex + ')"></span>' +
                                 '<div>' +
                                     '<span>X<input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '"></span>' +
                                     '<span>Y<input id="nodey-' + arrayIndex + '" class="pos-input" type="number" value="' + node.y + '"></span>' +
@@ -409,6 +409,29 @@
         }
 
         function deleteNode(arrayIndex){
+            var deletedNodeName = pointArray[arrayIndex].name;
+            for(var i = 0; i < pointArray.length; i++){
+                for(var j = 0; j < pointArray[i].connectedPoints.length; j++){
+                    if(pointArray[i].connectedPoints[j] === deletedNodeName) pointArray[i].connectedPoints.splice(j, 1);
+                }
+            }
+            pointArray.splice(arrayIndex, 1);
+
+            for(var i = 0; i < geometryLines; i++){
+                if(geometryLines[i].point1.name === deletedNodeName || geometryLines[i].point2.name === deletedNodeName) geometryLines.splice(i, 1);
+            }
+
+            while(scene.children.length > 0){
+                scene.remove(scene.children[0]);
+            }
+            init();
+            updateConnectedNodes();
+
+            $(".point-list").empty();
+            for(var i = 0; i < floorCount; i++){
+                floorDetails(i);
+            }
+            $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
         }
 
         function setConnectedNodes(arrayIndex){
