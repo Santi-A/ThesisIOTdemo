@@ -374,6 +374,7 @@
             const nodeDiv = '<div class="node-container">' +
                                 '<span><input id="nodename-' + arrayIndex + '" type="text" value="' + node.name + '"></span>' +
                                 '<span><input type="button" value="Update Node" onclick="updateNodeDetails(' + arrayIndex + ')"></span>' +
+                                '<span><input type="button" value="Delete Node" onclick"deleteNode(' + arrayIndex + ')"></span>' +
                                 '<div>' +
                                     '<span>X<input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '"></span>' +
                                     '<span>Y<input id="nodey-' + arrayIndex + '" class="pos-input" type="number" value="' + node.y + '"></span>' +
@@ -405,6 +406,9 @@
                 }
             }
             pointArray[arrayIndex].name = newName;
+        }
+
+        function deleteNode(arrayIndex){
         }
 
         function setConnectedNodes(arrayIndex){
