@@ -293,7 +293,25 @@
             $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
         }
 
-        function addNode(){
+        function addNode(floorNum){
+            var point = new Point('new(' + pointArray.length + ')', 0, (floorNum-1)*20, 0);
+            point.setDirection();
+            point.range = Math.abs(((floorNum-1)*20 / Math.sqrt(3))/2);
+            point.dx = point.range/50;
+            point.floor = floorNum;
+            pointArray.push(point);
+
+            while(scene.children.length > 0){
+                scene.remove(scene.children[0]);
+            }
+            init();
+            updateConnectedNodes();
+
+            $(".floor-" + floorNum + "-content").empty();
+            for(var fd = 0; fd < pointArray.length; fd++){
+                if(floorNum === pointArray[fd].floor) nodeDetails(fd);
+            }
+            $(".floor-" + floorNum + "-content").append('<div class="node-container" id="add-node-' + floorNum + '"><input type="button" value="Add a Node" onClick="addNode(' + floorNum + ')"></div>');
         }
 
         function createDefaultNodes(floor){
@@ -348,13 +366,14 @@
             for(var fd = 0; fd < pointArray.length; fd++){
                 if(floorVal === pointArray[fd].floor) nodeDetails(fd);
             }
-            $(".floor-" + floorVal + "-content").append('<div class="node-container" id="add-node-' + floorVal + '"><input type="button" value="Add a Node" onClick="addNode()"></div>');
+            $(".floor-" + floorVal + "-content").append('<div class="node-container" id="add-node-' + floorVal + '"><input type="button" value="Add a Node" onClick="addNode(' + floorVal + ')"></div>');
         }
 
         function nodeDetails(arrayIndex){
             const node = pointArray[arrayIndex];
             const nodeDiv = '<div class="node-container">' +
-                                '<span>' + node.name + '</span><span><input type="button" value="Update Node" onclick="updateNodeDetails(' + arrayIndex + ')"></span>' +
+                                '<span><input id="nodename-' + arrayIndex + '" type="text" value="' + node.name + '"></span>' +
+                                '<span><input type="button" value="Update Node" onclick="updateNodeDetails(' + arrayIndex + ')"></span>' +
                                 '<div>' +
                                     '<span>X<input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '"></span>' +
                                     '<span>Y<input id="nodey-' + arrayIndex + '" class="pos-input" type="number" value="' + node.y + '"></span>' +
@@ -369,10 +388,23 @@
             const xString = "#nodex-" + arrayIndex;
             const yString = "#nodey-" + arrayIndex;
             const zString = "#nodez-" + arrayIndex;
+            const nameString = "#nodename-" + arrayIndex;
             const xNew = parseInt($(xString).val());
             const yNew = parseInt($(yString).val());
             const zNew = parseInt($(zString).val());
+            const newName = $(nameString).val();
             pointArray[arrayIndex].updateCoordinates(xNew, yNew, zNew);
+            changeNodeName(arrayIndex, newName);
+        }
+
+        function changeNodeName(arrayIndex, newName){
+            var oldName = pointArray[arrayIndex].name;
+            for(var i = 0; i < pointArray.length; i++){
+                for(var j = 0; j < pointArray[i].connectedPoints.length; j++){
+                    if(pointArray[i].connectedPoints[j] === oldName) pointArray[i].connectedPoints[j] = newName;
+                }
+            }
+            pointArray[arrayIndex].name = newName;
         }
 
         function setConnectedNodes(arrayIndex){
