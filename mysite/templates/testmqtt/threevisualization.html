@@ -17,11 +17,14 @@
             <canvas></canvas>
             <div>
                 <div class="slide-container">
-                    <input type="range" min="1" max="100" id="time-slider" value="1">
+                    <input type="range" min="1" max="500" id="time-slider" value="1">
                 </div>
                 <div class="animation-options">
                     <span><input class="animation-toggle" type="button" value="Play"></span>
                     <span><input class="load-file" type="button" value="Load File"></span>
+                </div>
+                <div>
+                    <span><a href="{% url 'dashboard' %}">Return to Dashboard</a></span>
                 </div>
             </div>
         </div>
@@ -29,7 +32,6 @@
             <div class="sensor-header">
                 <span>Existing Array Name</span>
                 <span><input class="array-name" type="text"></span>
-                <span><a href="{% url 'dashboard' %}">Return to Dashboard</a></span>
             </div>
             <div class="sensor-header">
                 <span>Floor Count</span>
@@ -74,7 +76,7 @@
         var animationFrames = [];
         var isAnimating = false;
         var currentTime = 1;
-        var timeMax = 100;
+        var timeMax = 500;
 
         var renderer = new THREE.WebGLRenderer({ canvas: canvas });
         scene = new THREE.Scene();
