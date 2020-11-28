@@ -43,7 +43,7 @@ def canvas(request):
     return render(request, 'testmqtt/canvasTest.html', context)
 
 
-def canvasWire(request):
+def threevisualization(request):
     context = {
         'nodes': Node.objects.all()
     }
