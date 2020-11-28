@@ -16,14 +16,20 @@
         <div class="left-container">
             <canvas></canvas>
             <div>
-                <a href="{% url 'dashboard' %}">Return to Dashboard</a>
+                <div class="slide-container">
+                    <input type="range" min="1" max="100" id="time-slider" value="1">
+                </div>
+                <div class="animation-options">
+                    <span><input class="animation-toggle" type="button" value="Play"></span>
+                    <span><input class="load-file" type="button" value="Load File"></span>
+                </div>
             </div>
         </div>
         <div class="right-container">
             <div class="sensor-header">
                 <span>Existing Array Name</span>
                 <span><input class="array-name" type="text"></span>
-                <span><input class="animation-toggle" type="button" value="Toggle Animation"></span>
+                <span><a href="{% url 'dashboard' %}">Return to Dashboard</a></span>
             </div>
             <div class="sensor-header">
                 <span>Floor Count</span>
@@ -58,11 +64,17 @@
         canvas.width = canWidth;
         canvas.height = canHeight;
         var arrayName = '';
+
         var pointArray = [];
         var geometryLines = [];
         var targetList = [];
-        var isAnimating = false;
+
         var floorCount = 0;
+
+        var animationFrames = [];
+        var isAnimating = false;
+        var currentTime = 1;
+        var timeMax = 100;
 
         var renderer = new THREE.WebGLRenderer({ canvas: canvas });
         scene = new THREE.Scene();
@@ -80,7 +92,7 @@
         var materialline = new THREE.LineBasicMaterial({color: 0xA35F77});
         var geometryline = new THREE.Geometry();
 
-        /*
+        /*      //update this
         setInterval(function(){
             $.ajax({url: '/updateCanvasPoints',
                 success: function(result){
@@ -104,7 +116,7 @@
             this.xanim = this.x;
             this.yanim = this.y;
             this.zanim = this.z;
-            this.range = 3;
+            this.range = 3;     //update this
             this.dx = 0.1;
             this.right = true;
             this.up = true;
@@ -175,7 +187,7 @@
                 }
             }
 
-            this.update = function(){
+            this.update = function(){ //update this
                 if(isAnimating){
                     if(this.right){
                         if(this.xanim + this.dx <= this.x + this.range) this.xanim += this.dx;
@@ -238,15 +250,39 @@
             }
         }
 
-        function animate(){
+        function AnimationFrame(name, time, x, y, z){
+            this.name = name;
+            this.time = time;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        function loadAnimationFile(){
+            animationFrames = [];
+            currentTime = 1;
+            $("#time-slider").val(currentTime);
+        }
+
+        function nextFrame(){       //update this
+            if(isAnimating){
+                if(currentTime < timeMax) currentTime++;
+                else currentTime = 1;
+
+                $("#time-slider").val(currentTime);
+                for(var p = 0; p < pointArray.length; p++){
+                    pointArray[p].update();
+                }
+            }
+        }
+
+        function animate(){     //update this
             requestAnimationFrame( animate );
             controls.update();
             for(var g = 0; g < geometryLines.length; g++){
                 geometryLines[g].geometryLine.verticesNeedUpdate = true;
             }
-            for(var p = 0; p < pointArray.length; p++){
-                pointArray[p].update();
-            }
+            nextFrame();
             renderer.render( scene, camera );
         }
 
@@ -259,7 +295,7 @@
                         {% for connectedNode in point.connectedNodes.all %}
                             point.connectedPoints.push('{{connectedNode}}');
                         {% endfor %}
-                        point.range = Math.abs(({{point.yCoordinate}} / Math.sqrt(3))/2);
+                        point.range = Math.abs(({{point.yCoordinate}} / Math.sqrt(3))/2);       //update this
                         point.dx = point.range/50;
                         pointArray.push(point);
                         $(".point-list").append("<div>{{point.pointName}}</div>");
@@ -296,7 +332,7 @@
         function addNode(floorNum){
             var point = new Point('new(' + pointArray.length + ')', 0, (floorNum-1)*20, 0);
             point.setDirection();
-            point.range = Math.abs(((floorNum-1)*20 / Math.sqrt(3))/2);
+            point.range = Math.abs(((floorNum-1)*20 / Math.sqrt(3))/2);     //update this
             point.dx = point.range/50;
             point.floor = floorNum;
             pointArray.push(point);
@@ -317,7 +353,7 @@
         function createDefaultNodes(floor){
             var point = new Point('NW' + (floor+1), -10, floor*20, -10);
             point.setDirection();
-            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);
+            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);        //update this
             point.dx = point.range/50;
             point.connectedPoints.push('NE' + (floor+1));
             point.connectedPoints.push('SW' + (floor+1));
@@ -544,8 +580,23 @@
         });
 
         $(".animation-toggle").on('click', function(e){
-            if(!isAnimating) scene.remove(scene.getObjectByName('highlight'));
+            if(!isAnimating){
+                $(".animation-toggle").val("Pause");
+                scene.remove(scene.getObjectByName('highlight'));
+             }
+             else{
+                 $(".animation-toggle").val("Play");
+             }
             isAnimating = !isAnimating;
+        });
+
+        $(".load-file").on('click', function(e){
+            loadAnimationFile();
+            isAnimating = false;
+        });
+
+        $("#time-slider").on('change', function(e){
+            currentTime = $("#time-slider").val();
         });
 
         canvas.addEventListener('click', onDocumentMouseDown, false);
