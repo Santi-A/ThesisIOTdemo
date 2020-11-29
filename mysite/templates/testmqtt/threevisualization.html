@@ -10,6 +10,9 @@
     <script src="http://threejs.org/build/three.min.js"></script>
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
+    <script type='text/javascript' src="{% static 'js/Point.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/Line.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/AnimationFrame.js' %}" ></script>
 </head>
 <body>
     <div class="page-container">
@@ -94,174 +97,17 @@
         var materialline = new THREE.LineBasicMaterial({color: 0xA35F77});
         var geometryline = new THREE.Geometry();
 
-        /*      //update this
-        setInterval(function(){
-            $.ajax({url: '/updateCanvasPoints',
-                success: function(result){
-                    for(var i = 0; i < result.data.length; i++){
-                        for(var j = 0; j < pointArray.length; j++){
-                            if(pointArray[j].name === result.data[i].pointName){
-                                pointArray[j].updateCoordinates(result.data[i].xCoordinate, result.data[i].yCoordinate, result.data[i].zCoordinate);
-                            }
-                        }
-                    }
-                }
-            });
-        }, 1000);
-        */
-
-        function Point(name, x, y, z){
-            this.name = name;
-            this.x = x*10;
-            this.y = y*10;
-            this.z = z*10;
-            this.xanim = this.x;
-            this.yanim = this.y;
-            this.zanim = this.z;
-            this.range = 3;     //update this
-            this.dx = 0.1;
-            this.right = true;
-            this.up = true;
-            this.connectedPoints = [];
-            this.cube;
-            this.floor = 0;
-
-            this.updateCoordinates = function(newX, newY, newZ){
-                isAnimating = false;
-                var numX = parseInt(newX)
-                var numY = parseInt(newY)
-                var numZ = parseInt(newZ)
-                if(this.x != numX){
-                    this.x = numX;
-                    this.xanim = this.x;
-                 }
-                if(this.y != numY){
-                    this.y = numY;
-                    this.yanim = this.y;
-                }
-                if(this.z != numZ){
-                    this.z = numZ;
-                    this.zanim = this.z;
-                }
-            }
-
-            this.setDirection = function(){
-                //logic for cw or ccw movement (placeholder movement)
-                if(this.z > 0){ //cw
-                    if(this.y > 0){ //right
-                        this.right = true;
-                    }
-                    else{ //left
-                        this.right = false;
-                    }
-                }
-                else if(this.z < 0){ //ccw
-                    if(this.y > 0){ //left
-                        this.right = false;
-                    }
-                    else{ //right
-                        this.right = true;
-                    }
-                }
-                else{ //stationary
-                    this.dx = 0;
-                }
-            }
-
-            this.draw = function(){
-                this.cube = new THREE.Mesh( geometry, material );
-                this.cube.position.setX(this.xanim);
-                this.cube.position.setY(this.y);
-                this.cube.position.setZ(this.z);
-                this.cube.name = this.name;
-                scene.add( this.cube );
-                targetList.push(this.cube);
-            }
-
-            this.drawLines = function(){
-                for(var cpi = 0; cpi < this.connectedPoints.length; cpi++){
-                    for(var ari = 0; ari < pointArray.length; ari++){
-                        if(pointArray[ari].name === this.connectedPoints[cpi]){
-                            let newLine = new Line(this, pointArray[ari]);
-                            newLine.checkLines();
-                        }
-                    }
-                }
-            }
-
-            this.update = function(){ //update this
-                if(isAnimating){
-                    if(this.right){
-                        if(this.xanim + this.dx <= this.x + this.range) this.xanim += this.dx;
-                        else this.right = false;
-                    }
-                    else{
-                        if(this.xanim - this.dx >= this.x - this.range) this.xanim -= this.dx;
-                        else this.right = true;
-                    }
-                    this.cube.position.setX(this.xanim);
-                }
-                else{
-                    //this.xanim = this.x;
-                    this.cube.position.setX(this.xanim);
-                    this.cube.position.setY(this.yanim);
-                    this.cube.position.setZ(this.zanim);
-                }
-            }
-        }
-
-        function Line(p1, p2){
-            this.point1 = p1;
-            this.point2 = p2;
-            this.geometryLine;
-
-            this.checkLines = function(){
-                var lineExists = false;
-                for(var lineIndex = 0; lineIndex < geometryLines.length; lineIndex++){
-                    var comparePoint1 = geometryLines[lineIndex].point1.name;
-                    var comparePoint2 = geometryLines[lineIndex].point2.name;
-                    if(this.point1.name === comparePoint1 && this.point2.name === comparePoint2){
-                        lineExists = true;
-                    }
-                    else if(this.point1.name === comparePoint2 && this.point2.name === comparePoint1){
-                        lineExists = true;
-                    }
-                }
-                if(!lineExists){
-                    this.drawLine();
-                }
-            }
-
-            this.drawLine = function(){
-                this.geometryLine = new THREE.Geometry();
-                this.geometryLine.vertices.push(this.point1.cube.position, this.point2.cube.position)
-                var line = new THREE.Line( this.geometryLine, materialline );
-                geometryLines.push(this);
-                scene.add(line);
-            }
-
-
-        }
-
         function init(){
             for(var k = 0; k < pointArray.length; k++){
-                pointArray[k].draw();
+                pointArray[k].draw(scene, targetList, geometry, material);
             }
             for(var k = 0; k < pointArray.length; k++){
-                pointArray[k].drawLines();
+                pointArray[k].drawLines(pointArray);
             }
-        }
-
-        function AnimationFrame(name, time, x, y, z){
-            this.name = name;
-            this.time = time;
-            this.x = x;
-            this.y = y;
-            this.z = z;
         }
 
         function loadAnimationFile(){
-            animationFrames = [];
+            animationFrames.length = 0;
             currentTime = 1;
             $("#time-slider").val(currentTime);
         }
@@ -447,23 +293,8 @@
         }
 
         function deleteNode(arrayIndex){
-            var deletedNodeName = pointArray[arrayIndex].name;
-            for(var i = 0; i < pointArray.length; i++){
-                for(var j = 0; j < pointArray[i].connectedPoints.length; j++){
-                    if(pointArray[i].connectedPoints[j] === deletedNodeName) pointArray[i].connectedPoints.splice(j, 1);
-                }
-            }
+            pointArray[arrayIndex].removeReferences(pointArray, geometryLines);
             pointArray.splice(arrayIndex, 1);
-
-            for(var i = 0; i < geometryLines; i++){
-                if(geometryLines[i].point1.name === deletedNodeName || geometryLines[i].point2.name === deletedNodeName) geometryLines.splice(i, 1);
-            }
-
-            while(scene.children.length > 0){
-                scene.remove(scene.children[0]);
-            }
-            init();
-            updateConnectedNodes();
 
             $(".point-list").empty();
             for(var i = 0; i < floorCount; i++){
@@ -497,7 +328,7 @@
 
         function updateConnectedNodes(){
             var parentNode = parseInt($('#current-node-parent').val());
-            var newConnected = []
+            var newConnected = [];
             $('input[name="chk[]"]:checked').each(function(){
                 newConnected.push($(this).val())
             })
@@ -515,7 +346,7 @@
                     }
                 }
             }
-            geometryLines = [];
+            geometryLines.length = 0;
             while(scene.children.length > 0){
                 scene.remove(scene.children[0]);
             }
@@ -558,9 +389,9 @@
             if(e.which == 13){
                 arrayName = $(".array-name").val();
                 $(".point-list").empty();
-                pointArray = [];
-                geometryLines = [];
-                targetList = [];
+                pointArray.length = 0;
+                geometryLines.length = 0;
+                targetList.length = 0;
                 while(scene.children.length > 0){
                     scene.remove(scene.children[0]);
                 }
@@ -571,9 +402,9 @@
 
         $(".submit-temp").on('click', function(e){
             $(".point-list").empty();
-            pointArray = [];
-            geometryLines = [];
-            targetList = [];
+            pointArray.length = 0;
+            geometryLines.length = 0;
+            targetList.length = 0;
             while(scene.children.length > 0){
                 scene.remove(scene.children[0]);
             }
