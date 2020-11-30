@@ -20,7 +20,7 @@
             <canvas></canvas>
             <div>
                 <div class="slide-container">
-                    <input type="range" min="1" max="500" id="time-slider" value="1">
+                    <input type="range" min="0" max="240" id="time-slider" value="0">
                 </div>
                 <div class="animation-options">
                     <span><input class="animation-toggle" type="button" value="Play"></span>
@@ -38,7 +38,7 @@
             </div>
             <div class="sensor-header">
                 <span>Floor Count</span>
-                <span><input class="num-input" id="floor-count" type="number" min="1" value="1"></span>
+                <span><input class="num-input" id="floor-count" type="number" min="0" value="0"></span>
                 <span>Nodes Per Floor</span>
                 <span><input class="num-input" id="nodes-floor-count" type="number" min="4" value="4"></span>
                 <span><input class="submit-temp" type="button" value="Generate New Nodes"></span>
@@ -78,8 +78,9 @@
 
         var animationFrames = [];
         var isAnimating = false;
-        var currentTime = 1;
-        var timeMax = 500;
+        var currentTime = 0;
+        var timeMax = 240;
+        var framesBetweenPositions = 60;
 
         var renderer = new THREE.WebGLRenderer({ canvas: canvas });
         scene = new THREE.Scene();
@@ -106,33 +107,7 @@
             }
         }
 
-        function loadAnimationFile(){       //update this
-            animationFrames.length = 0;
-            currentTime = 1;
-            $("#time-slider").val(currentTime);
-        }
 
-        function nextFrame(){       //update this
-            if(isAnimating){
-                if(currentTime < timeMax) currentTime++;
-                else currentTime = 1;
-
-                $("#time-slider").val(currentTime);
-                for(var p = 0; p < pointArray.length; p++){
-                    pointArray[p].update();
-                }
-            }
-        }
-
-        function animate(){     //update this
-            requestAnimationFrame( animate );
-            controls.update();
-            for(var g = 0; g < geometryLines.length; g++){
-                geometryLines[g].geometryLine.verticesNeedUpdate = true;
-            }
-            nextFrame();
-            renderer.render( scene, camera );
-        }
 
         function updateExistingArray(){ //"existing" is in the context of the SQLite database
             {% for node in nodes %}
@@ -180,29 +155,11 @@
             init();
         });
 
-        $(".animation-toggle").on('click', function(e){
-            if(!isAnimating){
-                $(".animation-toggle").val("Pause");
-                scene.remove(scene.getObjectByName('highlight'));
-             }
-             else{
-                 $(".animation-toggle").val("Play");
-             }
-            isAnimating = !isAnimating;
-        });
 
-        $(".load-file").on('click', function(e){
-            loadAnimationFile();
-            isAnimating = false;
-        });
-
-        $("#time-slider").on('change', function(e){
-            currentTime = $("#time-slider").val();
-        });
-
-        animate();
     </script>
     <script type='text/javascript' src="{% static 'js/ListControls.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/Highlight.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/SampleAnimations.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/AnimationController.js' %}" ></script>
 </body>
 </html>

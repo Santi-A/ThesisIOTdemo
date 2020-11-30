@@ -1,15 +1,11 @@
 function Point(name, x, y, z){
     this.name = name;
-    this.x = x*10;
-    this.y = y*10;
-    this.z = z*10;
+    this.x = x;
+    this.y = y;
+    this.z = z;
     this.xanim = this.x;
     this.yanim = this.y;
     this.zanim = this.z;
-    this.range = 3;     //update this
-    this.dx = 0.1;
-    this.right = true;
-    this.up = true;
     this.connectedPoints = [];
     this.cube;
     this.floor = 0;
@@ -30,29 +26,6 @@ function Point(name, x, y, z){
         if(this.z != numZ){
             this.z = numZ;
             this.zanim = this.z;
-        }
-    }
-
-    this.setDirection = function(){
-    //logic for cw or ccw movement (placeholder movement)
-        if(this.z > 0){ //cw
-            if(this.y > 0){ //right
-                this.right = true;
-            }
-            else{ //left
-                this.right = false;
-            }
-        }
-        else if(this.z < 0){ //ccw
-            if(this.y > 0){ //left
-                this.right = false;
-            }
-            else{ //right
-                this.right = true;
-            }
-        }
-        else{ //stationary
-             this.dx = 0;
         }
     }
 
@@ -77,24 +50,20 @@ function Point(name, x, y, z){
         }
     }
 
-    this.update = function(){ //update this
-        if(isAnimating){
-            if(this.right){
-                if(this.xanim + this.dx <= this.x + this.range) this.xanim += this.dx;
-                else this.right = false;
+    this.update = function(){
+        framesIndex = animationFrames.findIndex(x => x.time === currentTime);
+        if(animationFrames[framesIndex]){
+            positionIndex = animationFrames[framesIndex].sensorPositions.findIndex(x => x.name === this.name);
+            if(animationFrames[framesIndex].sensorPositions[positionIndex]){
+                this.xanim = animationFrames[framesIndex].sensorPositions[positionIndex].x;
+                this.yanim = animationFrames[framesIndex].sensorPositions[positionIndex].y;
+                this.zanim = animationFrames[framesIndex].sensorPositions[positionIndex].z;
             }
-            else{
-                if(this.xanim - this.dx >= this.x - this.range) this.xanim -= this.dx;
-                else this.right = true;
-            }
-            this.cube.position.setX(this.xanim);
         }
-        else{
-            //this.xanim = this.x;
-            this.cube.position.setX(this.xanim);
-            this.cube.position.setY(this.yanim);
-            this.cube.position.setZ(this.zanim);
-         }
+
+        this.cube.position.setX(this.xanim);
+        this.cube.position.setY(this.yanim);
+        this.cube.position.setZ(this.zanim);
     }
 
     this.removeReferences = function(pointArray, geometryLines){

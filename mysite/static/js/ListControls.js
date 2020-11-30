@@ -6,7 +6,6 @@ function generateArray(){
         createDefaultNodes(i);
         for(var j = 4; j < numNodes; j++){
             var point = new Point('new(' + pointArray.length + ')', 0, (i)*20, 0);
-            point.setDirection();
             point.floor = i + 1;
             pointArray.push(point);
         }
@@ -23,10 +22,7 @@ function addFloor(){
 }
 
 function addNode(floorNum){
-    var point = new Point('new(' + pointArray.length + ')', 0, (floorNum-1)*20, 0);
-    point.setDirection();
-    point.range = Math.abs(((floorNum-1)*20 / Math.sqrt(3))/2);     //update this
-    point.dx = point.range/50;
+    var point = new Point('new(' + pointArray.length + ')', 0, (floorNum-1)*200, 0);
     point.floor = floorNum;
     pointArray.push(point);
 
@@ -44,40 +40,28 @@ function addNode(floorNum){
 }
 
         function createDefaultNodes(floor){
-            var point = new Point('NW' + (floor+1), -10, floor*20, -10);
-            point.setDirection();
-            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);        //update this
-            point.dx = point.range/50;
+            var point = new Point('NW' + (floor+1), -100, floor*200, -100);
             point.connectedPoints.push('NE' + (floor+1));
             point.connectedPoints.push('SW' + (floor+1));
             if(floor) point.connectedPoints.push('NW' + (floor));
             point.floor = floor + 1;
             pointArray.push(point);
 
-            var point = new Point('NE' + (floor+1), 10, floor*20, -10);
-            point.setDirection();
-            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);
-            point.dx = point.range/50;
+            var point = new Point('NE' + (floor+1), 100, floor*200, -100);
             point.connectedPoints.push('NW' + (floor+1));
             point.connectedPoints.push('SE' + (floor+1));
             if(floor) point.connectedPoints.push('NE' + (floor));
             point.floor = floor + 1;
             pointArray.push(point);
 
-            var point = new Point('SE' + (floor+1), 10, floor*20, 10);
-            point.setDirection();
-            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);
-            point.dx = point.range/50;
+            var point = new Point('SE' + (floor+1), 100, floor*200, 100);
             point.connectedPoints.push('NE' + (floor+1));
             point.connectedPoints.push('SW' + (floor+1));
             if(floor) point.connectedPoints.push('SE' + (floor));
             point.floor = floor + 1;
             pointArray.push(point);
 
-            var point = new Point('SW' + (floor+1), -10, floor*20, 10);
-            point.setDirection();
-            point.range = Math.abs((floor*20 / Math.sqrt(3))/2);
-            point.dx = point.range/50;
+            var point = new Point('SW' + (floor+1), -100, floor*200, 100);
             point.connectedPoints.push('NW' + (floor+1));
             point.connectedPoints.push('SE' + (floor+1));
             if(floor) point.connectedPoints.push('SW' + (floor));
