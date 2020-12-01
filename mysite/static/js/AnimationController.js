@@ -1,7 +1,6 @@
  $(".animation-toggle").on('click', function(e){
     if(!isAnimating){
         $(".animation-toggle").val("Pause");
-        scene.remove(scene.getObjectByName('highlight'));
     }
     else{
         $(".animation-toggle").val("Play");
@@ -46,7 +45,10 @@ function animate(){     //update this
     for(var g = 0; g < geometryLines.length; g++){
         geometryLines[g].geometryLine.verticesNeedUpdate = true;
     }
-    if(isAnimating) nextFrame();
+    if(isAnimating){
+        nextFrame();
+        if(highlight) highlight.updateHighlight();
+    }
     renderer.render( scene, camera );
 }
 
