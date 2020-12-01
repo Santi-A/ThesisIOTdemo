@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Testing 2D visualization</title>
+    <title>Testing 3D visualization</title>
     {% load static %}
     <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -10,26 +10,22 @@
     <script src="http://threejs.org/build/three.min.js"></script>
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
     <script type='text/javascript' src="{% static 'js/Point.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/Line.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/AnimationFrame.js' %}" ></script>
 </head>
 <body>
+    <div class="navBar">
+        <ul class="navBar-Content">
+            <li class="navBar-button">
+                <a href="{% url 'dashboard' %}" class="page-select" >Return to Dashboard</a>
+            </li>
+        </ul>
+    </div>
     <div class="page-container">
         <div class="left-container">
             <canvas></canvas>
-            <div>
-                <div class="slide-container">
-                    <input type="range" min="0" max="480" id="time-slider" value="0">
-                </div>
-                <div class="animation-options">
-                    <span><input class="animation-toggle" type="button" value="Play"></span>
-                    <span><input class="load-file" type="button" value="Load File"></span>
-                </div>
-                <div>
-                    <span><a href="{% url 'dashboard' %}">Return to Dashboard</a></span>
-                </div>
-            </div>
         </div>
         <div class="right-container">
             <div class="sensor-header">
@@ -48,6 +44,15 @@
             </div>
         </div>
     </div>
+    <div style="margin: 10px;border-color: darkgray;border-style: solid; border-radius: 3px;">
+        <div class="slide-container" style="margin: 10px;">
+            <input type="range" min="0" max="480" id="time-slider" value="0">
+        </div>
+        <div class="animation-options" style="margin: 10px;">
+            <span><input class="animation-toggle" type="button" value="Play"></span>
+            <span><input class="load-file" type="button" value="Load File"></span>
+        </div>
+    </div>
     <div id="nodeModal" class="modal fade" role="dialog" data-backdrop="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -64,8 +69,8 @@
     </div>
     <script>
         var canvas = document.querySelector('canvas');
-        var canWidth = 500;
-        var canHeight = 500;
+        var canWidth = 450;
+        var canHeight = 450;
         canvas.width = canWidth;
         canvas.height = canHeight;
         var arrayName = '';

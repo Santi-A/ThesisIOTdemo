@@ -7,6 +7,7 @@ function onDocumentMouseDown(event){
 
     if (intersects.length > 0) {
         isAnimating = false;
+        $(".animation-toggle").val("Play");
         console.log(intersects[0].object.name);
         setHighlight(intersects[0].object);
     }

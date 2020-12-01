@@ -12,6 +12,7 @@
 $(".load-file").on('click', function(e){
     loadAnimationFile();
     isAnimating = false;
+    $(".animation-toggle").val("Play");
 });
 
 $("#time-slider").on('change', function(e){
