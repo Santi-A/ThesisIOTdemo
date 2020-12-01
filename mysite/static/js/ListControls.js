@@ -72,7 +72,8 @@ function addNode(floorNum){
         function floorDetails(floorNum){
             const floorVal = floorNum + 1;
             const floorDiv= '<div class="floor-container">' +
-                                'Floor ' + floorVal +
+                                '<span>Floor ' + floorVal + '</span>' +
+                                '<span><input type="button" value="Delete Floor" onclick="deleteFloor(' + floorVal + ')"></span>' +
                                 '<div class="floor-' + floorVal + '-content"></div>'
                             '</div>';
             $(".point-list").append(floorDiv);
@@ -119,6 +120,25 @@ function addNode(floorNum){
                 }
             }
             pointArray[arrayIndex].name = newName;
+        }
+
+        function deleteFloor(floorNum){
+            for(var i = 0; i < pointArray.length; i++){
+                if(pointArray[i].floor === floorNum){
+                    pointArray[i].removeReferences(pointArray, geometryLines);
+                    pointArray.splice(i, 1);
+                    i--;
+                }
+                else if(pointArray[i].floor > floorNum){
+                    pointArray[i].floor = pointArray[i].floor - 1;
+                }
+            }
+            floorCount--;
+            $(".point-list").empty();
+            for(var i = 0; i < floorCount; i++){
+                floorDetails(i);
+            }
+            $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
         }
 
         function deleteNode(arrayIndex){

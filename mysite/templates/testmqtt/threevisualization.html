@@ -49,8 +49,13 @@
             <input type="range" min="0" max="480" id="time-slider" value="0">
         </div>
         <div class="animation-options" style="margin: 10px;">
-            <span><input class="animation-toggle" type="button" value="Play"></span>
-            <span><input class="load-file" type="button" value="Load File"></span>
+            <div>
+                <span><input class="animation-toggle" type="button" value="Play"></span>
+                <span><input class="load-file" type="button" value="Load File" onclick="loadAnimationFile"></span>
+            </div>
+            <div>
+                <span><input class="sample-anim-1" type="button" value="Sample Animation 1" onclick="sampleAnimation1()"></span>
+            </div>
         </div>
     </div>
     <div id="nodeModal" class="modal fade" role="dialog" data-backdrop="true">

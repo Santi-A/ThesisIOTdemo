@@ -9,19 +9,23 @@
     isAnimating = !isAnimating;
 });
 
-$(".load-file").on('click', function(e){
-    loadAnimationFile();
-    isAnimating = false;
-    $(".animation-toggle").val("Play");
-});
-
 $("#time-slider").on('change', function(e){
     currentTime = $("#time-slider").val() - 1;
     nextFrame();
 });
 
 function loadAnimationFile(){       //update this
+    isAnimating = false;
+    $(".animation-toggle").val("Play");
     animationFrames.length = 0;
+    currentTime = 0;
+    $("#time-slider").val(currentTime);
+}
+
+function sampleAnimation1(){
+    isAnimating = false;
+    $(".animation-toggle").val("Play");
+    generateFromCSV(samplecsv1, 60);
     currentTime = 0;
     $("#time-slider").val(currentTime);
 }
