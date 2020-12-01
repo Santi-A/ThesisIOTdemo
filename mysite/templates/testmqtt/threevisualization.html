@@ -20,7 +20,7 @@
             <canvas></canvas>
             <div>
                 <div class="slide-container">
-                    <input type="range" min="0" max="240" id="time-slider" value="0">
+                    <input type="range" min="0" max="480" id="time-slider" value="0">
                 </div>
                 <div class="animation-options">
                     <span><input class="animation-toggle" type="button" value="Play"></span>
@@ -79,7 +79,7 @@
         var animationFrames = [];
         var isAnimating = false;
         var currentTime = 0;
-        var timeMax = 240;
+        var timeMax = 480;
         var framesBetweenPositions = 60;
 
         var renderer = new THREE.WebGLRenderer({ canvas: canvas });
