@@ -47,6 +47,8 @@ function onDocumentMouseDown(event){
     if (intersects.length > 0) {
         console.log(intersects[0].object.name);
         setHighlight(intersects[0].object);
+        $("#selected-label").empty();
+        $("#selected-label").append("Selected Node: " + intersects[0].object.name);
     }
 }
 
@@ -56,7 +58,11 @@ function setHighlight(object){
 }
 
 $(document).keyup(function(e){
-    if(e.key === "Escape") highlight.removeHighlight();
+    if(e.key === "Escape"){
+        highlight.removeHighlight();
+        $("#selected-label").empty();
+        $("#selected-label").append("Selected Node: None");
+    }
 })
 
 canvas.addEventListener('click', onDocumentMouseDown, false);

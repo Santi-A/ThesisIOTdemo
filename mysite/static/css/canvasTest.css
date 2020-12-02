@@ -82,3 +82,10 @@ canvas {
 #time-slider{
     width: 100%;
 }
+
+#selected-label{
+    position: absolute;
+    z-index: 10;
+    color: #FFFFFF;
+    margin: 10px;
+}
