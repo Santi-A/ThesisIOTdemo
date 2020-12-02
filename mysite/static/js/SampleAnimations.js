@@ -153,6 +153,27 @@ samplecsv1.push(new CSVRow(8, 'NE3', 100, 400, -100))
 samplecsv1.push(new CSVRow(8, 'SW3', -100, 400, 100))
 samplecsv1.push(new CSVRow(8, 'SE3', 100, 400, 100))
 
+function prepareData(data){
+    var time = 0;
+    var lastTimeReading = data[0].time;
+    for(var i = 0; i < data.length; i++){
+        if(data[i].time === lastTimeReading){
+            data[i].time = time;
+        }
+        else if(data[i].time > lastTimeReading){
+            lastTimeReading = data[i].time;
+            time++;
+            data[i].time = time;
+        }
+        else{
+            console.log('Error. Data is not sequenced properly');
+            return;
+        }
+    }
+    //console.log(data);
+    generateFromCSV(data, 60);
+}
+
 function generateFromCSV(csv, timeCoefficient){
     animationFrames.length = 0;
     var anim1 = [];
