@@ -26,17 +26,19 @@
 </div>
 
 <script>
-    var XYZ = 'xyz-chart-' + sensorID;
-    var GYRO = 'gyro-chart-' + sensorID;
-    var TEMP = 'temp-chart-' + sensorID;
-    $("#sensor-container-id").attr('id', 'sensor-container-' + sensorID);
-    $("#sensor-tag-id").append('Sensor ' + arrayID + " " + sensorID);
-    $("#sensor-tag-id").attr('id', 'sensor-tag-' + sensorID);
+    //sensor id name of sensor
+    //array id is name of group
+    var XYZ = 'xyz-chart-' + sensorIDs[idIndex];
+    var GYRO = 'gyro-chart-' + sensorIDs[idIndex];
+    var TEMP = 'temp-chart-' + sensorIDs[idIndex];
+    $("#sensor-container-id").attr('id', 'sensor-container-' + sensorIDs[idIndex]);
+    $("#sensor-tag-id").append('Sensor ' + arrayID + " " + sensorIDs[idIndex]);
+    $("#sensor-tag-id").attr('id', 'sensor-tag-' + sensorIDs[idIndex]);
     $("#xyz-chart-id").attr('id', XYZ);
     $("#gyro-chart-id").attr('id', GYRO);
     $("#temp-chart-id").attr('id', TEMP);
-    $("#sensor-input").append('{"device": "' + arrayID + '-' + sensorID + '", "IMU": [0,0,0], "Gyro": [0,0,0]}');
-    $("#sensor-input").attr('id', 'input-' + arrayID + '-' + sensorID);
+    $("#sensor-input").append('{"device": "' + arrayID + '-' + sensorIDs[idIndex] + '", "IMU": [0,0,0], "Gyro": [0,0,0]}');
+    $("#sensor-input").attr('id', 'input-' + arrayID + '-' + sensorIDs[idIndex]);
 
     var XYZcanvas = document.getElementById(XYZ);
     var GYROcanvas = document.getElementById(GYRO);

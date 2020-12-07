@@ -30,15 +30,16 @@
         <div class="content"></div>
     </div>
     <script>
-        var sensorID = 0;
-        var sensorCount = 4;
+        var idIndex = 0;
         var arrayID = '';
+        var sensorIDs = ['1', '2', '3', '4'];
         var compareCharts = [];
         function loadContent(){
+            idIndex = 0;
             compareCharts = [];
             $(".content").empty();
             $.get("{% static 'html/sensorContainer.html' %}", function(data){
-                for(sensorID = 1; sensorID<=sensorCount; sensorID++){
+                for(idIndex = 0; idIndex<sensorIDs.length; idIndex++){
                     $(".content").append(data).stop();
                 }
             })
