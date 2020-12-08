@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5fd40995-02f7-4069-b62e-b9742fe5f115" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/static/html/sensorContainer.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/static/html/sensorContainer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/css/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/static/css/dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/js/SampleAnimations.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/static/js/SampleAnimations.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/templates/testmqtt/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/templates/testmqtt/dashboard.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

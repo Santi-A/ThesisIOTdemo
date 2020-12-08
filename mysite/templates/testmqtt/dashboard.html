@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <title>Dashboard Demo</title>
     {% load static %}
+    <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/dashContent.css' %}">
-    <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/chart.min.js' %}"></script>
 </head>
 <body>
@@ -22,6 +22,10 @@
                 <a href="" class="array-select" id="Random">Dashboard Random Value Demo</a>
             </li>
             <li class="navBar-button">
+                <a href="" class="load-sensor-file">Load Sensor File</a>
+                <input id="file-input" type="file" name="name" style="display: none;">
+            </li>
+            <li class="navBar-button">
                 <a href="{% url 'threevisualization' %}" class="page-select" >3D Visualization</a>
             </li>
         </ul>
@@ -30,12 +34,11 @@
         <div class="content"></div>
     </div>
     <script>
-        var idIndex = 0;
         var arrayID = '';
         var sensorIDs = ['1', '2', '3', '4'];
         var compareCharts = [];
+        var idIndex = 0;
         function loadContent(){
-            idIndex = 0;
             compareCharts = [];
             $(".content").empty();
             $.get("{% static 'html/sensorContainer.html' %}", function(data){
@@ -49,6 +52,30 @@
             arrayID = e.currentTarget.id;
             e.preventDefault();
             loadContent();
+        })
+
+        $(".load-sensor-file").on('click', function(e){
+            e.preventDefault();
+            $('#file-input').trigger('click');
+        })
+
+        $('#file-input').on('change', function(e){
+            const file = e.target.files[0];
+
+            var reader = new FileReader();
+            reader.readAsText(file,'UTF-8');
+
+            reader.onload = readerEvent => {
+                  var content = readerEvent.target.result.split(/\r?\n|\r/); //csv content
+                  var sensorNames = [];
+                  for(var i = 0; i < content.length; i++){
+                    var data = content[i].split(',');
+                    if(data[0] && data[0] != "")
+                        sensorNames.push(data[0])
+                  }
+                  sensorIDs = sensorNames;
+                  console.log(sensorIDs);
+            }
         })
 
         setInterval(function(){
