@@ -29,16 +29,24 @@
             <canvas></canvas>
         </div>
         <div class="right-container">
-            <div class="sensor-header">
-                <span>Existing Array Name</span>
-                <span><input class="array-name" type="text"></span>
-            </div>
+<!--            <div class="sensor-header">-->
+<!--                <span>Existing Array Name</span>-->
+<!--                <span><input class="array-name" type="text"></span>-->
+<!--            </div>-->
             <div class="sensor-header">
                 <span>Floor Count</span>
                 <span><input class="num-input" id="floor-count" type="number" min="0" value="0"></span>
                 <span>Nodes Per Floor</span>
                 <span><input class="num-input" id="nodes-floor-count" type="number" min="4" value="4"></span>
                 <span><input class="submit-temp" type="button" value="Generate New Nodes"></span>
+            </div>
+            <div class="sensor-header">
+                <span>Node File</span>
+                <span>
+                    <input class="load-node-file" type="button" value="Upload File" onclick="loadNodeFile()">
+                    <input id="node-file-input" type="file" name="name" style="display: none;">
+                </span>
+                <span class="sensor-file-name"></span>
             </div>
             <div class="point-list">
                 <div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>

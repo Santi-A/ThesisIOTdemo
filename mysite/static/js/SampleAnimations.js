@@ -222,4 +222,5 @@ function generateFromCSV(csv, timeCoefficient){
 
     animationFrames = anim2;
     console.log(animationFrames);
+    console.log('finished loading');
 }

@@ -14,6 +14,29 @@ function generateArray(){
     $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
 }
 
+function loadNodeFile(){
+    isAnimating = false;
+    $(".animation-toggle").val("Play");
+    animationFrames.length = 0;
+    currentTime = 0;
+    $("#time-slider").val(currentTime);
+    $('#node-file-input').trigger('click');
+}
+
+$('#node-file-input').on('change', function(e){
+    const file = e.target.files[0];
+
+    var reader = new FileReader();
+    reader.readAsText(file,'UTF-8');
+
+    reader.onload = readerEvent => {
+      var content = readerEvent.target.result.split(/\r?\n|\r/); //csv content
+      for(var i = 0; i < content.length; i++){
+        var data = content[i].split(','); //split by commas
+      }
+   }
+})
+
 function addFloor(){
     $("#add-floor").remove();
     floorDetails(floorCount);
@@ -100,6 +123,7 @@ function addNode(floorNum){
         }
 
         function updateNodeDetails(arrayIndex){
+            console.log('updating ' + arrayIndex);
             const xString = "#nodex-" + arrayIndex;
             const yString = "#nodey-" + arrayIndex;
             const zString = "#nodez-" + arrayIndex;
@@ -110,6 +134,7 @@ function addNode(floorNum){
             const newName = $(nameString).val();
             pointArray[arrayIndex].updateCoordinates(xNew, yNew, zNew);
             changeNodeName(arrayIndex, newName);
+            updateConnectedNodes();
         }
 
         function changeNodeName(arrayIndex, newName){
