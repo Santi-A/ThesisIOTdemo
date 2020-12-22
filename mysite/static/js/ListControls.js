@@ -31,9 +31,43 @@ $('#node-file-input').on('change', function(e){
 
     reader.onload = readerEvent => {
       var content = readerEvent.target.result.split(/\r?\n|\r/); //csv content
+      $(".sensor-file-name").empty();
+      $(".sensor-file-name").append(file);
+      $(".point-list").empty();
+      while(scene.children.length > 0){
+        scene.remove(scene.children[0]);
+      }
+      pointArray = [];
+      geometryLines = [];
+      targetList = [];
+      floorCount = 0;
       for(var i = 0; i < content.length; i++){
         var data = content[i].split(','); //split by commas
+        var name = data[0];
+        var floor = parseInt(data[1]);
+        var x = parseInt(data[2]);
+        var y = parseInt(data[3]);
+        var z = parseInt(data[4]);
+        var connected = data[5];
+
+        if(name && floor){
+            var point = new Point(name, x, y, z);
+            point.floor = floor;
+
+            var con = connected.split(':');
+            for(var j = 0; j < con.length; j++){
+                point.connectedPoints.push(con[j]);
+            }
+
+            pointArray.push(point);
+            if(floorCount < floor) floorCount = floor;
+        }
       }
+      for(var i = 0; i < floorCount; i++){
+        floorDetails(i);
+      }
+      $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
+      init();
    }
 })
 
