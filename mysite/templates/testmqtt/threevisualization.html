@@ -60,13 +60,18 @@
         <div class="animation-options" style="margin: 10px;">
             <div>
                 <span><input class="animation-toggle" type="button" value="Play"></span>
+                <span>Number of in-between frames to generate</span>
+                <span><input id="keyframe-count" type="number" class="num-input" value="60" min="1"></span>
+            </div>
+            <div>
                 <span>
                     <input class="load-file" type="button" value="Load File" onclick="loadAnimationFile()">
                     <input id="file-input" type="file" name="name" style="display: none;">
                 </span>
-            </div>
-            <div>
                 <span><input class="sample-anim-1" type="button" value="Sample Animation 1" onclick="sampleAnimation1()"></span>
+                <span>Currently loaded file: </span>
+                <span class="animation-file-name"></span>
+
             </div>
         </div>
     </div>

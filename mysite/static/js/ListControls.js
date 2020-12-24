@@ -32,7 +32,7 @@ $('#node-file-input').on('change', function(e){
     reader.onload = readerEvent => {
       var content = readerEvent.target.result.split(/\r?\n|\r/); //csv content
       $(".sensor-file-name").empty();
-      $(".sensor-file-name").append(file);
+      $(".sensor-file-name").append(file.name);
       $(".point-list").empty();
       while(scene.children.length > 0){
         scene.remove(scene.children[0]);

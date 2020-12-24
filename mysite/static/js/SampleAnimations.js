@@ -171,7 +171,9 @@ function prepareData(data){
         }
     }
     //console.log(data);
-    generateFromCSV(data, 60);
+    var keyframeCount = parseInt($("#keyframe-count").val());
+    if(keyframeCount < 1) keyframeCount = 1;
+    generateFromCSV(data, keyframeCount);
 }
 
 function generateFromCSV(csv, timeCoefficient){
@@ -222,5 +224,7 @@ function generateFromCSV(csv, timeCoefficient){
 
     animationFrames = anim2;
     console.log(animationFrames);
+    timeMax = animationFrames.length;
+    $('#time-slider').attr('max', timeMax);
     console.log('finished loading');
 }

@@ -26,6 +26,9 @@ function loadAnimationFile(){       //update this
 $('#file-input').on('change', function(e){
     const file = e.target.files[0];
 
+    $(".animation-file-name").empty();
+    $(".animation-file-name").append(file.name);
+
     var reader = new FileReader();
     reader.readAsText(file,'UTF-8');
 
@@ -45,7 +48,13 @@ $('#file-input').on('change', function(e){
 function sampleAnimation1(){
     isAnimating = false;
     $(".animation-toggle").val("Play");
-    generateFromCSV(samplecsv1, 60);
+
+    $(".animation-file-name").empty();
+    $(".animation-file-name").append('Sample Animation 1');
+
+    var keyframeCount = parseInt($("#keyframe-count").val());
+    if(keyframeCount < 1) keyframeCount = 1;
+    generateFromCSV(samplecsv1, keyframeCount);
     currentTime = 0;
     $("#time-slider").val(currentTime);
 }
