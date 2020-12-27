@@ -9,4 +9,5 @@ urlpatterns = [
     path('getCurrentValue', views.getCurrentValue, name='getCurrentValue'),
     path('updateCanvas', views.updateCanvas, name='updateCanvas'),
     path('updateCanvasPoints', views.updateCanvasPoints, name='updateCanvasPoints'),
+    path('export', views.export, name='export')
 ]
