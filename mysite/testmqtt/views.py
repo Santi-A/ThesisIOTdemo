@@ -4,6 +4,9 @@ import paho.mqtt.client as mqtt
 from .models import ReceivedString, Sensor, Node, Point
 import json
 import datetime
+import sqlite3
+import csv
+import os.path
 
 messageArray = []
 
@@ -50,6 +53,35 @@ def threevisualization(request):
     return render(request, 'testmqtt/threevisualization.html', context)
     # return render(request, 'testmqtt/canvasWire.html', context)
 
+def export(request):
+    BasePath = os.path.dirname(os.path.abspath(__file__))
+    SqlitePath = os.path.abspath("db.sqlite3")
+    dbtable = ["testmqtt_node", 
+               "testmqtt_point", 
+               "testmqtt_point_connectedNodes", 
+               "testmqtt_receivedstring", 
+               "testmqtt_sensor"]
+
+    for i in range(len(dbtable)):
+        connection = sqlite3.connect(SqlitePath)
+
+        name = dbtable[i]
+        c = connection.cursor()
+        Select = "SELECT rowid, * FROM " + name
+        FileName = name + ".csv"
+        c.execute(Select)
+        columns = [column[0] for column in c.description]
+        results = []
+        for row in c.fetchall():
+            results.append(dict(zip(columns, row)))
+        with open(FileName, "w", newline='') as new_file: 
+            fieldnames = columns
+            writer = csv.DictWriter(new_file,fieldnames=fieldnames)
+            writer.writeheader()
+            for line in results:
+                writer.writerow(line)
+        connection.close()
+    return render(request, 'testmqtt/dashboard.html') 
 
 def on_message(client, userdata, msg):
     global messageArray
