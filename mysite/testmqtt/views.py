@@ -53,7 +53,7 @@ def threevisualization(request):
     return render(request, 'testmqtt/threevisualization.html', context)
     # return render(request, 'testmqtt/canvasWire.html', context)
 
-def export(request):
+def csvexport(request):
     BasePath = os.path.dirname(os.path.abspath(__file__))
     SqlitePath = os.path.abspath("db.sqlite3")
     dbtable = ["testmqtt_node", 
@@ -82,6 +82,56 @@ def export(request):
                 writer.writerow(line)
         connection.close()
     return render(request, 'testmqtt/dashboard.html') 
+
+def outputJSONObject(key, val, last):
+	if val is None:
+		val = ''
+	obj = ''
+	obj += '\t\t"' + str(key).lower() + '" : '
+	obj += '"' + str(val) + '"'
+	if last != True:
+		obj+=','
+	obj+='\n'
+	return obj
+
+def jsonexport(request):
+    BasePath = os.path.dirname(os.path.abspath(__file__))
+    SqlitePath = os.path.abspath("db.sqlite3")
+
+    dbtable = ["testmqtt_node", 
+               "testmqtt_point", 
+               "testmqtt_point_connectedNodes", 
+               "testmqtt_receivedstring", 
+               "testmqtt_sensor"]
+
+    for table in dbtable:
+        connection = sqlite3.connect(SqlitePath)
+        connection.row_factory = sqlite3.Row
+        cur = connection.cursor()
+        cur.execute("select * from " + table)
+
+        colNames = [cn[0] for cn in cur.description]
+
+        with open(table + ".json", "w") as f:
+            f.write("[\n")
+
+            values = cur.fetchall()
+            for i, value in enumerate(values):
+                if value == None:
+                    break
+                json = '\t{\n'
+                for j, col in enumerate(colNames):
+                    last = j == (len(colNames)-1)
+                    json += outputJSONObject(col, value[col], last)
+                    
+                if i != (len(values)-1):
+                    json += '\t},\n'
+                else:
+                    json += '\t}\n'
+                f.write(json)
+            f.write("]")
+        cur.close()
+    return render(request, 'testmqtt/dashboard.html')
 
 def on_message(client, userdata, msg):
     global messageArray
