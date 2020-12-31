@@ -37,7 +37,9 @@
         </ul>
     </div>
     <div class="mainArea">
-        <div class="content"></div>
+        <div class="content">
+            <input type="button" value="Add a Sensor" class="" onclick="addNode()">
+        </div>
     </div>
     <script>
         var arrayID = '';
@@ -51,7 +53,22 @@
                 for(idIndex = 0; idIndex<sensorIDs.length; idIndex++){
                     $(".content").append(data).stop();
                 }
+                $(".content").append('<input type="button" value="Add a Sensor" class="" onclick="addNode()">');
             })
+        }
+
+        function addNode(){
+            console.log('adding node');
+        }
+
+        function deleteNode(name){
+            for(i = 0; i < sensorIDs.length; i++){
+                if(sensorIDs[i] === name){
+                    sensorIDs.splice(i, 1);
+                    break;
+                }
+            }
+            loadContent();
         }
 
         $(".array-select").on('click', function(e){
@@ -81,6 +98,7 @@
                   }
                   sensorIDs = sensorNames;
                   console.log(sensorIDs);
+                  loadContent();
             }
         })
 

@@ -1,6 +1,7 @@
 <div class="sensor-container" id="sensor-container-id">
     <div class="sensor-tag-div">
-        <b1 class="sensor-tag" id='sensor-tag-id'></b1> 
+        <b1 class="sensor-tag" id='sensor-tag-id'></b1>
+        <input type="button" class="delete-button" value="Delete" id="deleteID" onclick="">
     </div>
     <div class="sensor-chart-container">
         <div class="sensor-chart">
@@ -39,6 +40,8 @@
     $("#temp-chart-id").attr('id', TEMP);
     $("#sensor-input").append('{"device": "' + arrayID + '-' + sensorIDs[idIndex] + '", "IMU": [0,0,0], "Gyro": [0,0,0]}');
     $("#sensor-input").attr('id', 'input-' + arrayID + '-' + sensorIDs[idIndex]);
+    $("#deleteID").attr('onclick', 'deleteNode("' + sensorIDs[idIndex] + '")');
+    $("#deleteID").attr('id', 'deleteID-' + sensorIDs[idIndex]);
 
     var XYZcanvas = document.getElementById(XYZ);
     var GYROcanvas = document.getElementById(GYRO);
