@@ -8,6 +8,7 @@
     {% load static %}
     <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/dashContent.css' %}">
     <script type='text/javascript' src="{% static 'js/chart.min.js' %}"></script>
@@ -38,7 +39,20 @@
     </div>
     <div class="mainArea">
         <div class="content">
-            <input type="button" value="Add a Sensor" class="" onclick="addNode()">
+            <button type="button" data-toggle="modal" data-target="#newModal">Add a Sensor</button>
+        </div>
+    </div>
+    <div id="newModal" class="modal fade" role="dialog" data-backdrop="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Sensor Name</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="new-node-name">
+                    <input type="button" value="Update Connected Nodes" onclick="addNode()">
+                </div>
+            </div>
         </div>
     </div>
     <script>
@@ -53,16 +67,31 @@
                 for(idIndex = 0; idIndex<sensorIDs.length; idIndex++){
                     $(".content").append(data).stop();
                 }
-                $(".content").append('<input type="button" value="Add a Sensor" class="" onclick="addNode()">');
+                $(".content").append('<button type="button" data-toggle="modal" data-target="#newModal">Add a Sensor</button>');
             })
         }
 
         function addNode(){
             console.log('adding node');
+            var newName = $('#new-node-name').val();
+            if(newName && newName != ""){
+                var exists = false;
+                for(var i = 0; i < sensorIDs.length; i++){
+                    if(newName === sensorIDs[i]) exists = true;
+                }
+                if(!exists){
+                    sensorIDs.push(newName);
+                    loadContent();
+                }
+                else{
+                    console.log('name already exists');
+                }
+            }
+            $('#newModal').modal('hide');
         }
 
         function deleteNode(name){
-            for(i = 0; i < sensorIDs.length; i++){
+            for(var i = 0; i < sensorIDs.length; i++){
                 if(sensorIDs[i] === name){
                     sensorIDs.splice(i, 1);
                     break;
