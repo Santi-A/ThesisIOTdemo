@@ -69,3 +69,8 @@
     height:30px;
     background-color: gainsboro;
 }
+
+.delete-button{
+    float: right;
+    padding-right: 10px;
+}
