@@ -35,12 +35,20 @@
 <!--            </div>-->
             <div class="sensor-header">
                 <span>Floor Count</span>
-                <span><input class="num-input" id="floor-count" type="number" min="0" value="0"></span>
+                <span>
+                    <input class="num-input" id="floor-count" type="number" min="0" value="0">
+                </span>
+
                 <span>Nodes Per Floor</span>
-                <span><input class="num-input" id="nodes-floor-count" type="number" min="4" value="4"></span>
-                <span><input class="submit-temp" type="button" value="Generate New Nodes"></span>
+                <span>
+                    <input class="num-input" id="nodes-floor-count" type="number" min="4" value="4">
+                </span>
+                <span>
+                    <input class="submit-temp" type="button" value="Generate New Nodes" style='    float: right;border-radius: 5px;border-color: white;'>
+                </span>
             </div>
-            <div class="sensor-header">
+
+            <div class="sensor-header-node">
                 <span>Node File</span>
                 <span>
                     <input class="load-node-file" type="button" value="Upload File" onclick="loadNodeFile()">
@@ -49,7 +57,9 @@
                 <span class="sensor-file-name"></span>
             </div>
             <div class="point-list">
-                <div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>
+                <div class="floor-container" id="add-floor">
+                    <input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 800px;">
+                </div>
             </div>
         </div>
     </div>
@@ -91,8 +101,8 @@
     </div>
     <script>
         var canvas = document.querySelector('canvas');
-        var canWidth = 450;
-        var canHeight = 450;
+        var canWidth = 600;
+        var canHeight = 600;
         canvas.width = canWidth;
         canvas.height = canHeight;
         var arrayName = '';

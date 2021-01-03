@@ -1,18 +1,21 @@
 .sensor-container{
-    background-color: #646464;
-    color: #FFF;
+    background-color: gray;
+    color: gray;
     height: 560px;
     margin: 10px;
     border-style: solid;
-    border-radius: 10px;
+    border-radius: 5px;
     position:inherit;
 }
 
 .sensor-tag-div{
-    border-style: solid;
+    /*border-style: solid;*/
+    background-color: antiquewhite;
+    border-radius: 5px;
     height: auto;
     padding-left: 1%;
     font-size: 25px;
+    font-weight: bold;
     height: 43px;
     text-transform: uppercase;
 }
@@ -35,9 +38,12 @@
 }
 
 .chart-label{
-    border-style: solid;
+    border-top-style: solid;
+    border-bottom-style: solid;
     text-align: center;
-    background-color: grey;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 5px;
 }
 
 .sensor-chart{

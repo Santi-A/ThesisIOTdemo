@@ -66,7 +66,7 @@ $('#node-file-input').on('change', function(e){
       for(var i = 0; i < floorCount; i++){
         floorDetails(i);
       }
-      $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
+      $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 800px;"></div>');
       init();
    }
 })
@@ -75,7 +75,7 @@ function addFloor(){
     $("#add-floor").remove();
     floorDetails(floorCount);
     floorCount++;
-    $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
+    $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 800px;""></div>');
 }
 
 function addNode(floorNum){
@@ -129,9 +129,9 @@ function addNode(floorNum){
         function floorDetails(floorNum){
             const floorVal = floorNum + 1;
             const floorDiv= '<div class="floor-container">' +
-                                '<span>Floor ' + floorVal + '</span>' +
-                                '<span><input type="button" value="Delete Floor" onclick="deleteFloor(' + floorVal + ')"></span>' +
-                                '<div class="floor-' + floorVal + '-content"></div>'
+                                '<span style="float: left;font-weight: bold;font-size: 25px;">Floor ' + floorVal + '</span>' +
+                                '<span><input type="button" value="Delete Floor" onclick="deleteFloor(' + floorVal + ')" style="float:right;"></span>' +
+                                '<div class="floor-' + floorVal + '-content" style="margin-top: 50px;"></div>'
                             '</div>';
             $(".point-list").append(floorDiv);
             for(var fd = 0; fd < pointArray.length; fd++){
@@ -143,14 +143,14 @@ function addNode(floorNum){
         function nodeDetails(arrayIndex){
             const node = pointArray[arrayIndex];
             const nodeDiv = '<div class="node-container">' +
-                                '<span><input id="nodename-' + arrayIndex + '" type="text" value="' + node.name + '"></span>' +
-                                '<span><input type="button" value="Update Node" onclick="updateNodeDetails(' + arrayIndex + ')"></span>' +
-                                '<span><input type="button" value="Delete Node" onclick="deleteNode(' + arrayIndex + ')"></span>' +
+                                '<span><input id="nodename-' + arrayIndex + '" type="text" value="' + node.name + '" style = "float:left; margin-right:5px; text-align:center;"></span>' +
+                                '<span><input type="button" value="Update Node" onclick="updateNodeDetails(' + arrayIndex + ')" style = "float:right;"></span>' +
+                                '<span><input type="button" value="Delete Node" onclick="deleteNode(' + arrayIndex + ')" style = "float:right;"></span>' +
                                 '<div>' +
-                                    '<span>X<input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '"></span>' +
-                                    '<span>Y<input id="nodey-' + arrayIndex + '" class="pos-input" type="number" value="' + node.y + '"></span>' +
-                                    '<span>Z<input id="nodez-' + arrayIndex + '" class="pos-input" type="number" value="' + node.z + '"></span>' +
-                                    '<span><input type="button" value="Configure Connected Nodes" onclick="setConnectedNodes(' + arrayIndex + ')"></span>' +
+                                    '<span style="margin-right:10px;font-weight:bold;">X</span><span><input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '" style="text-align:center;"></span>' +
+                                    '<span style="margin-right:10px;font-weight:bold;">Y</span><span><input id="nodey-' + arrayIndex + '" class="pos-input" type="number" value="' + node.y + '" style="text-align:center;"></span>' +
+                                    '<span style="margin-right:10px;font-weight:bold;">Z</span><span><input id="nodez-' + arrayIndex + '" class="pos-input" type="number" value="' + node.z + '" style="text-align:center;"></span>' +
+                                    '<span><input type="button" value="Configure Connected Nodes" onclick="setConnectedNodes(' + arrayIndex + ')" style="float: left;"></span>' +
                                 '</div>' +
                             '</div>'
             $(".floor-" + node.floor + "-content").append(nodeDiv);

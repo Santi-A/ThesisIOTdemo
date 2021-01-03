@@ -15,27 +15,31 @@
 <body>
     <div class="navBar">
         <ul class="navBar-Content">
-            <li class="navBar-button">
-                <a href="" class="array-select" id="Test">Dashboard</a>
+            <!--
+            <li class="navBar-button-functions">
+                <a href="" class="array-select" id="Test">Sensor Dashboard</a>
             </li>
-            <li class="navBar-button">
-                <a href="" class="array-select" id="Random">Dashboard Random Value Demo</a>
+            -->
+            <li class="navBar-button-functions">
+                <a href="" class="array-select" id="Random">Sensor Dashboard</a>
             </li>
-            <li class="navBar-button">
+            <li class="navBar-button-export">
                 <a href="" class="load-sensor-file">Load Sensor File</a>
                 <input id="file-input" type="file" name="name" style="display: none;">
             </li>
-            <li class="navBar-button">
+            <li class="navBar-button-functions">
                 <a href="{% url 'threevisualization' %}" class="page-select" >3D Visualization</a>
             </li>
-            <li class="navBar-button">
+            <li class="navBar-button-export">
                 <a href="{% url 'csvexport' %}" class="page-select">CSV Export</a>
             </li>
-            <li class="navBar-button">
+            <li class="navBar-button-export">
                 <a href="{% url 'jsonexport' %}" class="page-select">JSON Export</a>
             </li>
         </ul>
     </div>
+    
+
     <div class="mainArea">
         <div class="content"></div>
     </div>
