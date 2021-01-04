@@ -11,7 +11,7 @@ function generateArray(){
         }
         floorDetails(i);
     }
-    $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
+    $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 100%;"></div>');
 }
 
 function loadNodeFile(){
@@ -66,7 +66,7 @@ $('#node-file-input').on('change', function(e){
       for(var i = 0; i < floorCount; i++){
         floorDetails(i);
       }
-      $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 800px;"></div>');
+      $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 100%;"></div>');
       init();
    }
 })
@@ -75,7 +75,7 @@ function addFloor(){
     $("#add-floor").remove();
     floorDetails(floorCount);
     floorCount++;
-    $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 800px;""></div>');
+    $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 100%;"></div>');
 }
 
 function addNode(floorNum){
@@ -143,18 +143,16 @@ function addNode(floorNum){
         function nodeDetails(arrayIndex){
             const node = pointArray[arrayIndex];
             const nodeDiv = '<div class="node-container">' +
+                                '<div class="node-control">' +
                                 '<span><input id="nodename-' + arrayIndex + '" type="text" value="' + node.name + '" style = "float:left; margin-right:5px; text-align:center;"></span>' +
-                                '<span><input type="button" value="Configure Connected Nodes" onclick="setConnectedNodes(' + arrayIndex + ')" style="float:left;"></span>' +
-                                '<span style="margin-right:10px;font-weight:bold;">X</span><span><input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '" style="text-align:center;"></span>' +
-                                '<span style="margin-right:10px;font-weight:bold;">Y</span><span><input id="nodey-' + arrayIndex + '" class="pos-input" type="number" value="' + node.y + '" style="text-align:center;"></span>' +
-                                '<span style="margin-right:10px;font-weight:bold;">Z</span><span><input id="nodez-' + arrayIndex + '" class="pos-input" type="number" value="' + node.z + '" style="text-align:center;"></span>' +
-                                '<span><input type="button" value="Update Node" onclick="updateNodeDetails(' + arrayIndex + ')" style = "float:right;margin-right:5px"></span>' +
-                                '<span><input type="button" value="Delete Node" onclick="deleteNode(' + arrayIndex + ')" style = "float:right;margin-right:5px"></span>' +
-                                /*'<div>' +
+                                '<span><input type="button" value="Connection" onclick="setConnectedNodes(' + arrayIndex + ')" style="float:left;"></span>' +
+                                '<span><input type="button" value="Update" onclick="updateNodeDetails(' + arrayIndex + ')" style = "float:right;margin-right:5px"></span>' +
+                                '<span><input type="button" value="Delete" onclick="deleteNode(' + arrayIndex + ')" style = "float:right;margin-right:5px"></span>' +
+                            '</div>' +
+                            '<div class="coordinate-control">' +
                                     '<span style="margin-right:10px;font-weight:bold;">X</span><span><input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '" style="text-align:center;"></span>' +
                                     '<span style="margin-right:10px;font-weight:bold;">Y</span><span><input id="nodey-' + arrayIndex + '" class="pos-input" type="number" value="' + node.y + '" style="text-align:center;"></span>' +
                                     '<span style="margin-right:10px;font-weight:bold;">Z</span><span><input id="nodez-' + arrayIndex + '" class="pos-input" type="number" value="' + node.z + '" style="text-align:center;"></span>' +
-                                '</div>' + */
                             '</div>'
             $(".floor-" + node.floor + "-content").append(nodeDiv);
         }
@@ -200,7 +198,7 @@ function addNode(floorNum){
             for(var i = 0; i < floorCount; i++){
                 floorDetails(i);
             }
-            $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
+            $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 100%;"></div>');
         }
 
         function deleteNode(arrayIndex){
@@ -211,7 +209,7 @@ function addNode(floorNum){
             for(var i = 0; i < floorCount; i++){
                 floorDetails(i);
             }
-            $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()"></div>');
+            $(".point-list").append('<div class="floor-container" id="add-floor"><input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 100%;"></div>');
         }
 
         function setConnectedNodes(arrayIndex){

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" style="min-width: 1920px; margin: 0 auto; max-height: 1080px;">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Testing 3D visualization</title>
     {% load static %}
     <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
@@ -59,7 +60,7 @@
             </div>
             <div class="point-list">
                 <div class="floor-container" id="add-floor">
-                    <input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;width: 800px;">
+                    <input type="button" value="Add a Floor" onClick="addFloor()" style="border-color: white;border-radius: 5px;    width: 100%;">
                 </div>
             </div>
         </div>
@@ -102,8 +103,8 @@
     </div>
     <script>
         var canvas = document.querySelector('canvas');
-        var canWidth = 600;
-        var canHeight = 600;
+        var canWidth = 500;
+        var canHeight = 500;
         canvas.width = canWidth;
         canvas.height = canHeight;
         var arrayName = '';

@@ -1,5 +1,6 @@
 html{
     height: 100%;
+    margin: 0;
 }
 
 body{
@@ -12,16 +13,20 @@ body{
 canvas {
     border: 1px solid black;
     background-color: #EBECF0;
+    width: auto;
+    height: inherit;
 }
 
 .page-container{
     display: flex;
     min-height: auto;
+    width: 100%;
+    height: 600px;
 }
 
 .left-container{
-    width: 600px;
-    height: 600px;
+    width: auto;
+    height: inherit;
     /*background-color: #A8A8A8;*/
     /*position: fixed;*/
     margin-left: 10px;
@@ -30,8 +35,8 @@ canvas {
 }
 
 .right-container{
-    width: 100%;
-    height: 600px;
+    width: inherit;
+    height: inherit;
     background-color: #909090;
     padding: 10px;
     /*margin-left: 740px;*/
@@ -69,6 +74,7 @@ canvas {
 
 .floor-container{
     background-color: #787878;
+    width: inherit;
     font-size: 20px;
     padding: 5px;
     margin-bottom: 10px;
@@ -80,9 +86,15 @@ canvas {
 
 .node-container{
     background-color: #656565;
+    width: inherit;
+    display:grid;
     font-size: 20px;
     padding: 5px;
     margin-bottom: 10px;
+}
+
+.coordinate-control{
+    margin-top: 10px;
 }
 
 .point-list{
