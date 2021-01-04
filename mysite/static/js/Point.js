@@ -82,3 +82,32 @@ function Point(name, x, y, z){
         }
     }
 }
+
+function exportPoints(){
+    var exportArray = [];
+    for(var i = 0; i < pointArray.length; i++){
+        var name = pointArray[i].name;
+        var floor = pointArray[i].floor;
+        var x = pointArray[i].x;
+        var y = pointArray[i].y;
+        var z = pointArray[i].z;
+
+        var connected = "";
+        for(var j = 0; j < pointArray[i].connectedPoints.length; j++){
+            connected = connected + pointArray[i].connectedPoints[j];
+            if(j < pointArray[i].connectedPoints.length - 1) connected = connected + ":";
+        }
+
+        var nodeFormat = [name, floor, x, y, z, connected];
+        exportArray.push(nodeFormat);
+    }
+    var csvContent = "data:text/csv;charset=utf-8,"
+    + exportArray.map(e => e.join(",")).join("\n");
+
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "points.csv");
+    document.body.appendChild(link);
+    link.click();
+}
