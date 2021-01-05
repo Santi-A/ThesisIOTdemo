@@ -6,6 +6,7 @@ body{
 
 .navBar{
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .navBar-Content {
@@ -19,6 +20,7 @@ body{
     width: 100%;
     border-bottom: solid;
     border-bottom-color: gray;
+    font-weight: 20;
 }
 
 .navBar-button-functions {

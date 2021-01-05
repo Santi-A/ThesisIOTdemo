@@ -20,6 +20,14 @@
     text-transform: uppercase;
 }
 
+.add-sensor{
+    background-color: gray;
+    color: gray;
+    margin:10px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
 .sensor-tag{
     float: left;
 }

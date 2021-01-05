@@ -43,7 +43,9 @@
 
     <div class="mainArea">
         <div class="content">
-            <button type="button" data-toggle="modal" data-target="#newModal">Add a Sensor</button>
+            <div class="add-sensor">
+                <button type="button" data-toggle="modal" data-target="#newModal" style="width:100%;font-size:30px;font-weight:20;border-style: none;">Add a Sensor</button>
+            </div>
         </div>
     </div>
     <div id="newModal" class="modal fade" role="dialog" data-backdrop="true">
@@ -71,7 +73,7 @@
                 for(idIndex = 0; idIndex<sensorIDs.length; idIndex++){
                     $(".content").append(data).stop();
                 }
-                $(".content").append('<button type="button" data-toggle="modal" data-target="#newModal">Add a Sensor</button>');
+                $(".content").append('<div class="add-sensor"><button type="button" data-toggle="modal" data-target="#newModal" style="width:100%;font-size:30px;font-weight:20;border-style: none;">Add a Sensor</button></div>');
             })
         }
 

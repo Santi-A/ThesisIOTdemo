@@ -73,15 +73,18 @@ canvas {
 }
 
 .floor-container{
-    background-color: #787878;
+    background-color: gray;
     width: inherit;
     font-size: 20px;
     padding: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-align: center;
-    border-color: black;
     border-style: solid;
+    border-color: gray;
     border-radius: 5px;
+    border-bottom-color: dimgray;
+    border-bottom-width: 5px;
+
 }
 
 .node-container{
@@ -91,6 +94,9 @@ canvas {
     font-size: 20px;
     padding: 5px;
     margin-bottom: 10px;
+    border-radius: 5px;
+    border-bottom-color: dimgray;
+    border-bottom-width: 5px;
 }
 
 .coordinate-control{

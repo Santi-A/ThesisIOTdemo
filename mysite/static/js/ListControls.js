@@ -131,7 +131,7 @@ function addNode(floorNum){
             const floorVal = floorNum + 1;
             const floorDiv= '<div class="floor-container">' +
                                 '<span style="float: left;font-weight: bold;font-size: 25px;">Floor ' + floorVal + '</span>' +
-                                '<span><input type="button" value="Delete Floor" onclick="deleteFloor(' + floorVal + ')" style="float:right;"></span>' +
+                                '<span><input type="button" value="Delete Floor" onclick="deleteFloor(' + floorVal + ')" style="float:right;border-color:white;border-radius:5px;"></span>' +
                                 '<div class="floor-' + floorVal + '-content" style="margin-top: 50px;"></div>'
                             '</div>';
             $(".point-list").append(floorDiv);
@@ -146,9 +146,9 @@ function addNode(floorNum){
             const nodeDiv = '<div class="node-container">' +
                                 '<div class="node-control">' +
                                 '<span><input id="nodename-' + arrayIndex + '" type="text" value="' + node.name + '" style = "float:left; margin-right:5px; text-align:center;"></span>' +
-                                '<span><input type="button" value="Connection" onclick="setConnectedNodes(' + arrayIndex + ')" style="float:left;"></span>' +
-                                '<span><input type="button" value="Update" onclick="updateNodeDetails(' + arrayIndex + ')" style = "float:right;margin-right:5px"></span>' +
-                                '<span><input type="button" value="Delete" onclick="deleteNode(' + arrayIndex + ')" style = "float:right;margin-right:5px"></span>' +
+                                '<span><input type="button" value="Connection" onclick="setConnectedNodes(' + arrayIndex + ')" style="float:left;border-color:white;border-radius:5px;"></span>' +
+                                '<span><input type="button" value="Update" onclick="updateNodeDetails(' + arrayIndex + ')" style = "float:right;margin-right:5px;border-color:white;border-radius:5px;"></span>' +
+                                '<span><input type="button" value="Delete" onclick="deleteNode(' + arrayIndex + ')" style = "float:right;margin-right:5px;border-color:white;border-radius:5px;"></span>' +
                             '</div>' +
                             '<div class="coordinate-control">' +
                                     '<span style="margin-right:10px;font-weight:bold;">X</span><span><input id="nodex-' + arrayIndex + '" class="pos-input" type="number" value="' + node.x + '" style="text-align:center;"></span>' +
