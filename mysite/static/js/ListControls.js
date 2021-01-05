@@ -54,7 +54,8 @@ $('#node-file-input').on('change', function(e){
             var point = new Point(name, x, y, z);
             point.floor = floor;
 
-            var con = connected.split(':');
+            var con = [];
+            if(connected != null) con = connected.split(':');
             for(var j = 0; j < con.length; j++){
                 point.connectedPoints.push(con[j]);
             }
