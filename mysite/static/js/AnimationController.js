@@ -38,7 +38,7 @@ $('#file-input').on('change', function(e){
       for(var i = 0; i < content.length; i++){
         var data = content[i].split(',');
         if(data[0] && data[1] && data[2] && data[3] && data[4])
-            preprocessedRows.push(new CSVRow(parseInt(data[0]), data[1], parseInt(data[2]), parseInt(data[3]), parseInt(data[4])));
+            preprocessedRows.push(new CSVRow(parseFloat(data[0]), data[1], parseFloat(data[2]), parseFloat(data[3]), parseFloat(data[4])));
       }
       prepareData(preprocessedRows);
       //console.log(preprocessedRows);
