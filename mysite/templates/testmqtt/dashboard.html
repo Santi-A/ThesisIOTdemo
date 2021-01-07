@@ -22,7 +22,7 @@
             </li>
             -->
             <li class="navBar-button-functions">
-                <a href="" class="array-select" id="Random">Sensor Dashboard</a>
+                <a href="" class="array-select">Sensor Dashboard</a>
             </li>
             <li class="navBar-button-export">
                 <a href="" class="load-sensor-file">Load Sensor File</a>
@@ -61,12 +61,27 @@
             </div>
         </div>
     </div>
+    <div id="nameModal" class="modal fade" role="dialog" data-backdrop="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Input Array Name</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="new-array-name">
+                    <input type="button" value="Create Array" onclick="loadContent()">
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         var arrayID = '';
         var sensorIDs = ['1', '2', '3', '4'];
         var compareCharts = [];
         var idIndex = 0;
         function loadContent(){
+            arrayID = $("#new-array-name").val();
+            if(!arrayID) arrayID = '';
             compareCharts = [];
             $(".content").empty();
             $.get("{% static 'html/sensorContainer.html' %}", function(data){
@@ -75,6 +90,7 @@
                 }
                 $(".content").append('<div class="add-sensor"><button type="button" data-toggle="modal" data-target="#newModal" style="width:100%;font-size:30px;font-weight:20;border-style: none;">Add a Sensor</button></div>');
             })
+            $('#nameModal').modal('hide');
         }
 
         function addNode(){
@@ -107,9 +123,8 @@
         }
 
         $(".array-select").on('click', function(e){
-            arrayID = e.currentTarget.id;
             e.preventDefault();
-            loadContent();
+            $('#nameModal').modal('show');
         })
 
         $(".load-sensor-file").on('click', function(e){
