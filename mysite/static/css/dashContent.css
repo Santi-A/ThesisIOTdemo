@@ -1,7 +1,7 @@
 .sensor-container{
     background-color: gray;
     color: gray;
-    height: 560px;
+    height: auto;
     margin: 10px;
     border-style: solid;
     border-radius: 5px;
