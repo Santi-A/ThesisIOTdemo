@@ -2,8 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5fd40995-02f7-4069-b62e-b9742fe5f115" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mysite/static/js/CSVController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/css/canvasTest.css" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/static/css/threevisualization.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/html/compareChart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/html/dashContent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/html/reloader.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/static/js/AnimationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/static/js/AnimationController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/static/js/SampleAnimations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/templates/testmqtt/canvasTest.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/templates/testmqtt/canvasWire.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/templates/testmqtt/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/templates/testmqtt/threevisualization.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/templates/testmqtt/threevisualization.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/testmqtt/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/testmqtt/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/testmqtt/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/testmqtt/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

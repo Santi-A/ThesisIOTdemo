@@ -18,32 +18,8 @@ def getCurrentValue(request):
     return HttpResponse(JSONsend)
 
 
-def updateCanvas(request):
-    arrayData = Node.objects.all().values()
-    sensorData = Sensor.objects.all().values()
-
-    return JsonResponse({"arrayData": list(arrayData), "sensorData": list(sensorData)})
-
-
-def updateCanvasPoints(request):
-    data = Point.objects.all().values()
-
-    return JsonResponse({"data": list(data)})
-
-
-def index(request):
-    return render(request, 'testmqtt/index.html')
-
-
 def dashboard(request):
     return render(request, 'testmqtt/dashboard.html')
-
-
-def canvas(request):
-    context = {
-        'nodes': Node.objects.all()
-    }
-    return render(request, 'testmqtt/canvasTest.html', context)
 
 
 def threevisualization(request):
@@ -51,7 +27,6 @@ def threevisualization(request):
         'nodes': Node.objects.all()
     }
     return render(request, 'testmqtt/threevisualization.html', context)
-    # return render(request, 'testmqtt/canvasWire.html', context)
 
 def csvexport(request):
     BasePath = os.path.dirname(os.path.abspath(__file__))

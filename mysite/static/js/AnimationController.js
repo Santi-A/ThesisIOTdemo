@@ -45,20 +45,6 @@ $('#file-input').on('change', function(e){
    }
 })
 
-function sampleAnimation1(){
-    isAnimating = false;
-    $(".animation-toggle").val("Play");
-
-    $(".animation-file-name").empty();
-    $(".animation-file-name").append('Sample Animation 1');
-
-    var keyframeCount = parseInt($("#keyframe-count").val());
-    if(keyframeCount < 1) keyframeCount = 1;
-    generateFromCSV(samplecsv1, keyframeCount);
-    currentTime = 0;
-    $("#time-slider").val(currentTime);
-}
-
 function nextFrame(){       //update this
         if(currentTime < timeMax) currentTime++;
         else currentTime = 0;

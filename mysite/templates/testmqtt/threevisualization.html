@@ -10,7 +10,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="http://threejs.org/build/three.min.js"></script>
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/canvasTest.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/threevisualization.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
     <script type='text/javascript' src="{% static 'js/Point.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/Line.js' %}" ></script>
@@ -80,7 +80,6 @@
                     <input class="load-file" type="button" value="Load File" onclick="loadAnimationFile()">
                     <input id="file-input" type="file" name="name" style="display: none;">
                 </span>
-                <span><input class="sample-anim-1" type="button" value="Sample Animation 1" onclick="sampleAnimation1()"></span>
                 <span>Currently loaded file: </span>
                 <span class="animation-file-name"></span>
 
@@ -198,7 +197,7 @@
     </script>
     <script type='text/javascript' src="{% static 'js/ListControls.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/Highlight.js' %}" ></script>
-    <script type='text/javascript' src="{% static 'js/SampleAnimations.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/CSVController.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/AnimationController.js' %}" ></script>
 </body>
 </html>
