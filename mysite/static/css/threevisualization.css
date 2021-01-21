@@ -121,3 +121,38 @@ canvas {
     color: #FFFFFF;
     margin: 10px;
 }
+
+.help-text{
+    position: absolute;
+    z-index: 10;
+    color: #FFFFFF;
+    margin: 10px;
+    margin-left: 580px;
+}
+
+.help-text .help-tooltip{
+    visibility: hidden;
+    width: 300px;
+    background-color: #656565;
+    color: #FFFFFF;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 11;
+
+    top: -5px;
+    right: 105%;
+}
+
+.help-text:hover .help-tooltip{
+    visibility: visible;
+}
+
+.tooltip-title{
+    text-align: center;
+}
+
+.tooltip-content{
+    margin-left: 5px;
+}
