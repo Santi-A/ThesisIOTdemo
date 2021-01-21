@@ -72,8 +72,8 @@
         <div class="animation-options" style="margin: 10px;">
             <div>
                 <span><input class="animation-toggle" type="button" value="Play"></span>
-                <span>Number of in-between frames to generate</span>
-                <span><input id="keyframe-count" type="number" class="num-input" value="60" min="1"></span>
+<!--                <span>Number of in-between frames to generate</span>-->
+<!--                <span><input id="keyframe-count" type="number" class="num-input" value="60" min="1"></span>-->
             </div>
             <div>
                 <span>
@@ -96,6 +96,19 @@
                     <div class="connected-node-options"></div>
                     <input type="hidden" id="current-node-parent" value="0">
                     <input type="button" value="Update Connected Nodes" onclick="updateConnectedNodes()">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="timeModal" class="modal fade" role="dialog" data-backdrop="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Number of frames to fill</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="keyframe-count" type="number" class="num-input" value="60" min="1">
+                    <input type="button" value="Generate" onclick="generateAnimation()">
                 </div>
             </div>
         </div>

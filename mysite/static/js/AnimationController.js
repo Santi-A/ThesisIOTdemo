@@ -17,14 +17,36 @@ $("#time-slider").on('change', function(e){
 function loadAnimationFile(){       //update this
     isAnimating = false;
     $(".animation-toggle").val("Play");
-    animationFrames.length = 0;
     currentTime = 0;
     $("#time-slider").val(currentTime);
     $('#file-input').trigger('click');
 }
 
 $('#file-input').on('change', function(e){
-    const file = e.target.files[0];
+    $("#timeModal").modal('show');
+//    const file = e.target.files[0];
+//
+//    $(".animation-file-name").empty();
+//    $(".animation-file-name").append(file.name);
+//
+//    var reader = new FileReader();
+//    reader.readAsText(file,'UTF-8');
+//
+//    reader.onload = readerEvent => {
+//      var content = readerEvent.target.result.split(/\r?\n|\r/); //csv content
+//      var preprocessedRows = [];
+//      for(var i = 0; i < content.length; i++){
+//        var data = content[i].split(',');
+//        if(data[0] && data[1] && data[2] && data[3] && data[4])
+//            preprocessedRows.push(new CSVRow(parseFloat(data[0]), data[1], parseFloat(data[2]), parseFloat(data[3]), parseFloat(data[4])));
+//      }
+//      prepareData(preprocessedRows);
+//   }
+})
+
+function generateAnimation(){
+    const file = $("#file-input").prop('files')[0];
+    animationFrames.length = 0;
 
     $(".animation-file-name").empty();
     $(".animation-file-name").append(file.name);
@@ -41,9 +63,9 @@ $('#file-input').on('change', function(e){
             preprocessedRows.push(new CSVRow(parseFloat(data[0]), data[1], parseFloat(data[2]), parseFloat(data[3]), parseFloat(data[4])));
       }
       prepareData(preprocessedRows);
-      //console.log(preprocessedRows);
+      $("#timeModal").modal('hide');
    }
-})
+}
 
 function nextFrame(){       //update this
         if(currentTime < timeMax) currentTime++;
