@@ -156,3 +156,23 @@ canvas {
 .tooltip-content{
     margin-left: 5px;
 }
+
+#nodeChartX{
+    max-height: 50px;
+    width: 100%;
+}
+
+#nodeChartY{
+    max-height: 50px;
+    width: 100%;
+}
+
+#nodeChartZ{
+    max-height: 50px;
+    width: 100%;
+}
+
+.graphLabel{
+    position: absolute;
+    margin-left: 10px;
+}

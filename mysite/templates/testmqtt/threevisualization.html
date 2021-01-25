@@ -6,6 +6,7 @@
     <title>Testing 3D visualization</title>
     {% load static %}
     <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/chart.min.js' %}" ></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="http://threejs.org/build/three.min.js"></script>
@@ -15,6 +16,7 @@
     <script type='text/javascript' src="{% static 'js/Point.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/Line.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/AnimationFrame.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/NodeChart.js' %}" ></script>
 </head>
 <body>
     <div class="navBar">
@@ -98,6 +100,15 @@
             </div>
         </div>
     </div>
+    <div style="margin: 10px;border-color: darkgray;border-style: solid; border-radius: 3px; padding: 10px;">
+        <span class="graphLabel">X</span><canvas id="nodeChartX" height="50"></canvas>
+    </div>
+    <div style="margin: 10px;border-color: darkgray;border-style: solid; border-radius: 3px; padding: 10px;">
+        <span class="graphLabel">Y</span><canvas id="nodeChartY" height="50"></canvas>
+    </div>
+    <div style="margin: 10px;border-color: darkgray;border-style: solid; border-radius: 3px; padding: 10px;">
+        <span class="graphLabel">Z</span><canvas id="nodeChartZ" height="50"></canvas>
+    </div>
     <div id="nodeModal" class="modal fade" role="dialog" data-backdrop="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -161,6 +172,9 @@
         var materialline = new THREE.LineBasicMaterial({color: 0xA35F77});
         var geometryline = new THREE.Geometry();
 
+        var nodeChart = new NodeChart('#nodeChartX', '#nodeChartY', '#nodeChartZ');
+        nodeChart.loadChart();
+
         function init(){
             for(var k = 0; k < pointArray.length; k++){
                 pointArray[k].draw(scene, targetList, geometry, material);
@@ -217,8 +231,6 @@
             generateArray();
             init();
         });
-
-
     </script>
     <script type='text/javascript' src="{% static 'js/ListControls.js' %}" ></script>
     <script type='text/javascript' src="{% static 'js/Highlight.js' %}" ></script>

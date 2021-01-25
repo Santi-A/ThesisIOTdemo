@@ -49,6 +49,22 @@ function onDocumentMouseDown(event){
         setHighlight(intersects[0].object);
         $("#selected-label").empty();
         $("#selected-label").append("Selected Node: " + intersects[0].object.name);
+
+        var dataX = [];
+        var dataY = [];
+        var dataZ = [];
+
+        for(i = 0; i < animationFrames.length; i++){
+            for(j = 0; j < animationFrames[i].sensorPositions.length; j++){
+                if(intersects[0].object.name === animationFrames[i].sensorPositions[j].name){
+                    dataX.push(animationFrames[i].sensorPositions[j].x);
+                    dataY.push(animationFrames[i].sensorPositions[j].y);
+                    dataZ.push(animationFrames[i].sensorPositions[j].z);
+                }
+            }
+        }
+
+        nodeChart.setData(dataX, dataY, dataZ);
     }
 }
 
@@ -60,6 +76,13 @@ function setHighlight(object){
 $(document).keyup(function(e){
     if(e.key === "Escape"){
         highlight.removeHighlight();
+
+        var dataX = [];
+        var dataY = [];
+        var dataZ = [];
+
+        nodeChart.setData(dataX, dataY, dataZ);
+
         $("#selected-label").empty();
         $("#selected-label").append("Selected Node: None");
     }
