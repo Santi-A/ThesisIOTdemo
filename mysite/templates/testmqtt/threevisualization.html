@@ -168,7 +168,6 @@
         controls.update();
 
         var geometry = new THREE.BoxGeometry( 10, 10, 10 );
-        var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
         var materialline = new THREE.LineBasicMaterial({color: 0xA35F77});
         var geometryline = new THREE.Geometry();
 
@@ -177,7 +176,7 @@
 
         function init(){
             for(var k = 0; k < pointArray.length; k++){
-                pointArray[k].draw(scene, targetList, geometry, material);
+                pointArray[k].draw(scene, targetList, geometry);
             }
             for(var k = 0; k < pointArray.length; k++){
                 pointArray[k].drawLines(pointArray);

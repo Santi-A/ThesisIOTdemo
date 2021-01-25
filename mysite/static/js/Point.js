@@ -9,6 +9,7 @@ function Point(name, x, y, z){
     this.connectedPoints = [];
     this.cube;
     this.floor = 0;
+    this.material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
 
     this.updateCoordinates = function(newX, newY, newZ){
         isAnimating = false;
@@ -29,8 +30,8 @@ function Point(name, x, y, z){
         }
     }
 
-    this.draw = function(scene, targetList, geometry, material){
-        this.cube = new THREE.Mesh( geometry, material );
+    this.draw = function(scene, targetList, geometry){
+        this.cube = new THREE.Mesh( geometry, this.material );
         this.cube.position.setX(this.xanim);
         this.cube.position.setY(this.y);
         this.cube.position.setZ(this.z);
@@ -59,11 +60,18 @@ function Point(name, x, y, z){
                 this.yanim = animationFrames[framesIndex].sensorPositions[positionIndex].y;
                 this.zanim = animationFrames[framesIndex].sensorPositions[positionIndex].z;
             }
+            if(animationFrames[framesIndex].sensorPositions[positionIndex].color){
+                this.changeColor(animationFrames[framesIndex].sensorPositions[positionIndex].color);
+            }
         }
 
         this.cube.position.setX(this.xanim);
         this.cube.position.setY(this.yanim);
         this.cube.position.setZ(this.zanim);
+    }
+
+    this.changeColor = function(color){
+        this.cube.material.color.setHex(color);
     }
 
     this.removeReferences = function(pointArray, geometryLines){

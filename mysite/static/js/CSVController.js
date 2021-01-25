@@ -4,6 +4,11 @@ function CSVRow(time, name, x, y, z){
     this.x = x;
     this.y = y;
     this.z = z;
+    this.color;
+
+    this.setColor = function(color){
+        this.color = color;
+    }
 }
 
 function prepareData(data){
@@ -47,7 +52,7 @@ function generateFromCSV(csv, timeCoefficient){
             anim1.push(newFrame);
             animIndex = anim1.length - 1;
         }
-        anim1[animIndex].addSensorPosition(csv[i].name, csv[i].x, csv[i].y, csv[i].z);
+        anim1[animIndex].addSensorPosition(csv[i].name, csv[i].x, csv[i].y, csv[i].z, csv[i].color);
     }
 
     //handling in between keyframes

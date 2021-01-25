@@ -59,8 +59,13 @@ function generateAnimation(){
       var preprocessedRows = [];
       for(var i = 0; i < content.length; i++){
         var data = content[i].split(',');
-        if(data[0] && data[1] && data[2] && data[3] && data[4])
-            preprocessedRows.push(new CSVRow(parseFloat(data[0]), data[1], parseFloat(data[2]), parseFloat(data[3]), parseFloat(data[4])));
+        if(data[0] && data[1] && data[2] && data[3] && data[4]){
+            var csvRow = new CSVRow(parseFloat(data[0]), data[1], parseFloat(data[2]), parseFloat(data[3]), parseFloat(data[4]));
+            if(data[5]){
+                csvRow.setColor(data[5]);
+            }
+            preprocessedRows.push(csvRow);
+        }
       }
       prepareData(preprocessedRows);
       $("#timeModal").modal('hide');
